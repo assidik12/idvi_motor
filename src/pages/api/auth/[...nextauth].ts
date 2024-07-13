@@ -37,7 +37,6 @@ const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     async jwt({ token, user, account }: any) {
-      console.log(account?.provider);
       if (account?.provider === "credentials") {
         token.email = user.email;
         token.role = user.role;
