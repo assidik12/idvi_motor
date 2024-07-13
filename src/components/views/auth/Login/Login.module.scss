@@ -1,0 +1,42 @@
+.login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+  &__title {
+    margin-bottom: 1rem;
+    font-size: 32px;
+  }
+  &__form {
+    width: 40%;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px;
+    border-radius: 12px;
+    flex-direction: column;
+    gap: 10px;
+    &__item {
+      display: flex;
+      width: 100%;
+      margin-bottom: 10px;
+      flex-direction: column;
+      align-items: center;
+      justify-items: center;
+      &__label {
+        font-size: 16px;
+        margin-bottom: 5px;
+      }
+      &__input {
+        width: 75%;
+        padding: 5px;
+      }
+    }
+    &__button {
+      border-radius: 10px;
+      width: 100%;
+      padding: 10px;
+    }
+  }
+}
