@@ -17,25 +17,24 @@
     border-radius: 12px;
     flex-direction: column;
     gap: 10px;
+    &__error {
+      color: red;
+      margin-bottom: 10px;
+      font-weight: bold;
+      font-size: 14px;
+    }
     &__item {
       display: flex;
+      padding-top: 10px;
       width: 100%;
       margin-bottom: 10px;
       flex-direction: column;
       align-items: center;
       justify-items: center;
-      &__label {
-        font-size: 16px;
-        margin-bottom: 5px;
-      }
-      &__input {
-        width: 75%;
-        padding: 5px;
-      }
     }
     &__button {
       border-radius: 10px;
-      width: 100%;
+      width: 55%;
       padding: 10px;
     }
   }

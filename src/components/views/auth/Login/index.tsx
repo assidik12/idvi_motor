@@ -1,8 +1,11 @@
 import Link from "next/link";
 import styles from "./Login.module.scss";
+import { Google } from "@mui/icons-material";
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/router";
 import { signIn } from "next-auth/react";
+import Input from "@/components/ui/input";
+import Button from "@/components/ui/button";
 
 const LoginView = (props: any) => {
   const [error, setError] = useState("");
@@ -11,6 +14,7 @@ const LoginView = (props: any) => {
   const callbackUrl: any = query.callbackUrl || "/";
   const handlesubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
     const form = e.target as HTMLFormElement;
     const data = {
       email: form.email.value,
@@ -29,7 +33,6 @@ const LoginView = (props: any) => {
         push(callbackUrl);
       } else {
         setLoading(false);
-        console.log(res);
         setError("Invalid email or password");
       }
     } catch (error) {
@@ -42,22 +45,18 @@ const LoginView = (props: any) => {
     <div className={styles.login}>
       <h1 className={styles.login__title}>Login</h1>
       <div className={styles.login__form}>
+        <p className={styles.login__form__error}>{error ? "Invalid email or password" : ""}</p>
         <form onSubmit={handlesubmit}>
-          <div className={styles.login__form__item}>
-            <label className={styles.login__form__item__label} htmlFor="email">
-              email
-            </label>
-            <input className={styles.login__form__item__input} type="email" name="email" required={true} />
-            <label className={styles.login__form__item__label} htmlFor="password">
-              password
-            </label>
-            <input className={styles.login__form__item__input} type="password" name="password" required={true} min={10} />
-          </div>
-          <button className={styles.login__form__button} type="submit">
-            Login
-          </button>
+          <Input name="email" label="Email" type="email" placeholder="Email" />
+          <Input name="password" label="Password" type="password" placeholder="masukkan password" />
+
+          <Button type="submit" varian="primary" className={styles.login__form__button}>
+            {loading ? "loading..." : "Login"}
+          </Button>
         </form>
-        <p>{error}</p>
+        <Button type="button" varian="primary" className={styles.login__form__button} onClick={() => signIn("google", { callbackUrl: callbackUrl, redirect: false })}>
+          {<Google className={styles.login__form__button__icon} />}Login with Google
+        </Button>
       </div>
       <p>
         don`t have an account? <Link href={"/auth/register"}>sign up</Link>

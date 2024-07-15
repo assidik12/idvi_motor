@@ -1,5 +1,5 @@
+import { SignUp } from "@/lib/auth";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { SignUp } from "@/lib/firebase/service";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "POST") {
