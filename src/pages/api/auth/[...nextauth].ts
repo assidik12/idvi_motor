@@ -1,4 +1,4 @@
-import { signIn, SignInWithGoogle } from "@/lib/auth/index";
+import { signIn, SignInWithGoogle } from "@/services/auth/method";
 import { compare } from "bcrypt";
 import { NextAuthOptions } from "next-auth";
 import NextAuth from "next-auth/next";

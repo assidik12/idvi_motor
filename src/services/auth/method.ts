@@ -1,5 +1,6 @@
-import bcrypt from "bcrypt";
-import { addData, retrieveDataByField, updateData } from "../firebase/service";
+import { hashSync } from "bcrypt";
+import { addData, retrieveDataByField, updateData } from "../../lib/firebase/service";
+
 type userData = {
   email: string;
   password: string;
@@ -17,7 +18,7 @@ export async function SignUp(userData: userData, callback: Function) {
       userData.role = "user";
     }
 
-    userData.password = await bcrypt.hash(userData.password, 10);
+    userData.password = await hashSync(userData.password, 10);
 
     await addData("users", userData)
       .then((res) => {
