@@ -45,12 +45,14 @@ const authOptions: NextAuthOptions = {
       if (account?.provider === "credentials") {
         token.email = user.email;
         token.role = user.role;
-        token.fullname = user.fullname;
+        token.fullname = user.username;
       }
+
       if (account?.provider === "google") {
         const data = {
           fullname: user.name,
           email: user.email,
+          role: user.role,
           image: user.image,
           type: "google",
         };

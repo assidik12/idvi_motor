@@ -1,5 +1,5 @@
 import { hashSync } from "bcrypt";
-import { addData, retrieveDataByField, updateData } from "../../lib/firebase/service";
+import { addData, retrieveDataByField } from "../../lib/firebase/service";
 
 type userData = {
   email: string;
@@ -43,17 +43,9 @@ export async function signIn(email: string) {
 export async function SignInWithGoogle(userData: any, callback: Function) {
   const data: any = await retrieveDataByField("users", "email", userData.email);
 
-  if (data.length > 0) {
-    userData.role = data[0].role;
-    await updateData("users", data[0].email, userData)
-      .then((res) => {
-        callback({ status: true, message: res });
-      })
-      .catch((err) => {
-        callback({ status: false, message: err.message });
-      });
-  } else {
+  if (data.length <= 0) {
     userData.role = "user";
+
     await addData("users", userData)
       .then((res) => {
         callback({ status: true, message: res.id });
@@ -61,5 +53,9 @@ export async function SignInWithGoogle(userData: any, callback: Function) {
       .catch((err) => {
         callback({ status: false, message: err.message });
       });
+  } else {
+    userData.role = data[0].role;
+
+    callback({ status: true, data: data[0] });
   }
 }

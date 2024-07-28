@@ -5,6 +5,7 @@
   justify-content: center;
   padding: 10px;
   margin: 4px;
+  font-weight: 500;
 }
 .button:hover {
   cursor: pointer;
@@ -15,5 +16,10 @@
 
 .primary {
   background-color: #007bff;
+  color: #fff;
+}
+
+.secondary {
+  background-color: #6c757d;
   color: #fff;
 }
