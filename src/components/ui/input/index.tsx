@@ -5,6 +5,8 @@ type InputProps = {
   label?: string;
   type: string;
   placeholder?: string;
+  defaultValue?: string;
+  disabled?: boolean;
 };
 
 const Input = (props: InputProps) => {
@@ -15,7 +17,7 @@ const Input = (props: InputProps) => {
           {props.label}
         </label>
       )}
-      <input type={props.type} name={props.name} placeholder={props.placeholder} id={props.name} className={styles.container__input} required={true} />
+      <input type={props.type} name={props.name} placeholder={props.placeholder} id={props.name} className={styles.container__input} required={true} defaultValue={props.defaultValue} disabled={props.disabled} />
     </div>
   );
 };

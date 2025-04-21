@@ -1,0 +1,29 @@
+.title {
+  margin-bottom: 40px;
+  font-size: 30px;
+}
+.button {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  &__cancel {
+    border-radius: 10px;
+    width: 55%;
+    background-color: #000;
+    color: #ccc;
+    padding: 10px;
+  }
+  &__delete {
+    border-radius: 10px;
+    background-color: red;
+    width: 55%;
+    padding: 10px;
+  }
+  &__cancel:hover {
+    background-color: #ccc;
+    color: #000;
+  }
+  &__delete:hover {
+    background-color: rgb(237, 82, 82);
+  }
+}

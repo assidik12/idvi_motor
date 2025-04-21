@@ -4,6 +4,7 @@ import { NextAuthOptions } from "next-auth";
 import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
+
 const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
@@ -45,12 +46,12 @@ const authOptions: NextAuthOptions = {
       if (account?.provider === "credentials") {
         token.email = user.email;
         token.role = user.role;
-        token.fullname = user.username;
+        token.fullname = user.fullname;
       }
 
       if (account?.provider === "google") {
-        const data = {
-          fullname: user.name,
+        const data: any = {
+          fullName: user.name,
           email: user.email,
           role: user.role,
           image: user.image,

@@ -15,7 +15,7 @@ const RegisterView = (props: any) => {
     setLoading(true);
     const form = e.target as HTMLFormElement;
     const data = {
-      username: form.username.value,
+      fullname: form.fullname.value,
       email: form.email.value,
       password: form.password.value,
     };
@@ -32,7 +32,7 @@ const RegisterView = (props: any) => {
     <AuthLayout link="/auth/login" description="have an account?" linkTitle="sign in" title="Register" error={error}>
       <form onSubmit={handlesubmit}>
         <div className={styles.register__form__item}>
-          <Input name="username" label="Username" type="text" placeholder="masukkan username" />
+          <Input name="fullname" label="Fullname" type="text" placeholder="masukkan nama lengkap" />
           <Input name="email" label="Email" type="email" placeholder="masukkan email" />
           <Input name="password" label="Password" type="password" placeholder="masukkan password" />
           <Button type="submit" varian="primary" className={styles.register__form__button}>

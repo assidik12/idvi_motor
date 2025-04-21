@@ -1,15 +1,18 @@
 import { hashSync } from "bcrypt";
 import { addData, retrieveDataByField } from "../../lib/firebase/service";
 
-type userData = {
+export type userData = {
   email: string;
   password: string;
-  fullName: string;
-  phone: string;
+  fullname: string;
+  phone?: string;
   role?: string;
+  created_at?: Date;
+  updated_at?: Date;
 };
 
 export async function SignUp(userData: userData, callback: Function) {
+  console.log(userData);
   const data = await retrieveDataByField("users", "email", userData.email);
   if (data.length > 0) {
     callback({ statis: false, message: "Email already exists" });
@@ -19,6 +22,8 @@ export async function SignUp(userData: userData, callback: Function) {
     }
 
     userData.password = await hashSync(userData.password, 10);
+    userData.created_at = new Date();
+    userData.updated_at = new Date();
 
     await addData("users", userData)
       .then((res) => {
@@ -40,11 +45,14 @@ export async function signIn(email: string) {
   }
 }
 
-export async function SignInWithGoogle(userData: any, callback: Function) {
+export async function SignInWithGoogle(userData: userData, callback: Function) {
   const data: any = await retrieveDataByField("users", "email", userData.email);
 
   if (data.length <= 0) {
     userData.role = "user";
+    userData.created_at = new Date();
+    userData.updated_at = new Date();
+    userData.password = "";
 
     await addData("users", userData)
       .then((res) => {

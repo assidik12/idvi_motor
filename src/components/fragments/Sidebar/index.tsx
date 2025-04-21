@@ -8,7 +8,7 @@ type propsType = {
   lists: Array<{
     title: string;
     href: string;
-    icon: string;
+    icon: any;
   }>;
 };
 
@@ -22,7 +22,7 @@ const SidebarView = (props: propsType) => {
         <div className={style.sidebar__top__list}>
           {lists.map((list) => (
             <Link href={list.href} key={list.title} className={`${style.sidebar__top__list__item} ${pathname === list.href ? style.sidebar__top__list__item__active : ""}`}>
-              <i className={`bx ${list.icon} ${style.sidebar__top__list__item__icon}`} />
+              <i className={` ${style.sidebar__top__list__item__icon}`}>{list.icon}</i>
               <h2 className={style.sidebar__top__list__item__title}>{list.title}</h2>
             </Link>
           ))}
