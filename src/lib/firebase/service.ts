@@ -36,6 +36,7 @@ export async function addData(collectionName: string, data: any) {
 }
 
 export async function updateData(collectionName: string, id: string, data: any, callback: Function) {
+  console.log(data);
   const docRef = await updateDoc(doc(firestore, collectionName, id), data)
     .then(() => {
       callback(true);
@@ -48,6 +49,6 @@ export async function deleteData(collectionName: string, id: string, callback: F
   const docRef = await deleteDoc(doc(firestore, collectionName, id))
     .then(() => callback(true))
     .catch(() => callback(false));
-  console.log(docRef);
+
   return docRef;
 }

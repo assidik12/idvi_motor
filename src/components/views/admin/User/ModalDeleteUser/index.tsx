@@ -3,13 +3,14 @@ import style from "./ModalDeleteUser.module.scss";
 import Button from "@/components/ui/button";
 import UserServices from "@/services/user";
 import { useState } from "react";
+import { useSession } from "next-auth/react";
 const ModalDeleteUser = (props: any) => {
   const { modalDeleteUser, setModalDeleteuser, setUserData } = props;
   const [loading, setLoading] = useState(false);
+  const { data }: any = useSession();
+
   const deleteUser = async () => {
-    // setLoading(true);
-    const result = await UserServices.deleteUser(modalDeleteUser.id);
-    console.log(result);
+    const result = await UserServices.deleteUser(modalDeleteUser.id, data?.accessToken);
     if (result.status) {
       const { data } = await UserServices.getAllUsers();
       setModalDeleteuser({});
