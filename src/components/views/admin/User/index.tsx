@@ -1,15 +1,22 @@
 import AdminLayout from "@/components/layouts/AdminLayout";
 import style from "./UserAdmin.module.scss";
 import Button from "@/components/ui/button";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import ModalUpdateUser from "./ModalUpdateUser";
 import ModalDeleteUser from "./ModalDeleteUser";
+import { User } from "@/types/user.type";
+import { useSession } from "next-auth/react";
+
+type propsType = {
+  setToaster: Dispatch<SetStateAction<{}>>;
+};
 
 const UserAdminView = (props: any) => {
-  const { users } = props;
-  const [modalUpdatedUser, setModalUpdateduser] = useState<any>({});
-  const [modalDeleteUser, setModalDeleteuser] = useState<any>({});
-  const [userData, setUserData] = useState([]);
+  const { users, setToaster } = props;
+  const { data }: any = useSession();
+  const [modalUpdatedUser, setModalUpdateduser] = useState<User | {}>({});
+  const [modalDeleteUser, setModalDeleteuser] = useState<User | {}>({});
+  const [userData, setUserData] = useState<User[]>([]);
 
   useEffect(() => {
     setUserData(users);
@@ -57,8 +64,8 @@ const UserAdminView = (props: any) => {
           </table>
         </div>
       </AdminLayout>
-      {Object.keys(modalUpdatedUser).length !== 0 && <ModalUpdateUser modalUpdateUser={modalUpdatedUser} setModalUpdateuser={setModalUpdateduser} setUserData={setUserData} userData={userData} />}
-      {Object.keys(modalDeleteUser).length !== 0 && <ModalDeleteUser modalDeleteUser={modalDeleteUser} setModalDeleteuser={setModalDeleteuser} setUserData={setUserData} userData={userData} />}
+      {Object.keys(modalUpdatedUser).length !== 0 && <ModalUpdateUser modalUpdateUser={modalUpdatedUser} setModalUpdateuser={setModalUpdateduser} setUserData={setUserData} userData={userData} session={data} setToaster={setToaster} />}
+      {Object.keys(modalDeleteUser).length !== 0 && <ModalDeleteUser modalDeleteUser={modalDeleteUser} setModalDeleteuser={setModalDeleteuser} setUserData={setUserData} userData={userData} session={data} setToaster={setToaster} />}
     </>
   );
 };

@@ -1,12 +1,12 @@
 import styles from "./Register.module.scss";
-import { FormEvent, useState } from "react";
+import { Dispatch, FormEvent, SetStateAction, useState } from "react";
 import { useRouter } from "next/router";
 import Input from "@/components/ui/input";
 import Button from "@/components/ui/button";
 import AUthService from "@/services/auth";
 import AuthLayout from "@/components/layouts/AuthLayout";
 
-const RegisterView = (props: any) => {
+const RegisterView = ({ setToaster }: { setToaster: Dispatch<SetStateAction<{}>> }) => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const { push } = useRouter();
@@ -19,17 +19,22 @@ const RegisterView = (props: any) => {
       email: form.email.value,
       password: form.password.value,
     };
-    const result = await AUthService.registerAccouunt(data);
-    if (result.status === 200) {
+    try {
+      const result = await AUthService.registerAccouunt(data);
+      if (!result.status) {
+        setLoading(false);
+        form.reset();
+        setToaster({ message: "Register success", varian: "Succes" });
+        push("/auth/login");
+      }
+    } catch (error) {
       form.reset();
-      push("/auth/login");
-    } else {
-      form.reset();
-      setError("Invalid email or password");
+      setLoading(false);
+      setToaster({ message: "Register failed", varian: "Error" });
     }
   };
   return (
-    <AuthLayout link="/auth/login" description="have an account?" linkTitle="sign in" title="Register" error={error}>
+    <AuthLayout setToaster={setToaster} link="/auth/login" description="have an account?" linkTitle="sign in" title="Register">
       <form onSubmit={handlesubmit}>
         <div className={styles.register__form__item}>
           <Input name="fullname" label="Fullname" type="text" placeholder="masukkan nama lengkap" />

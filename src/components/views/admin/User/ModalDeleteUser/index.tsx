@@ -2,21 +2,33 @@ import Modal from "@/components/ui/modal";
 import style from "./ModalDeleteUser.module.scss";
 import Button from "@/components/ui/button";
 import UserServices from "@/services/user";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { useSession } from "next-auth/react";
-const ModalDeleteUser = (props: any) => {
-  const { modalDeleteUser, setModalDeleteuser, setUserData } = props;
+import { User } from "@/types/user.type";
+
+type propsType = {
+  modalDeleteUser: Dispatch<SetStateAction<any>> | any;
+  setModalDeleteuser: Dispatch<SetStateAction<any>>;
+  setUserData: Dispatch<SetStateAction<any>>;
+  userData: User | any;
+  setToaster: Dispatch<SetStateAction<{}>>;
+  session: any;
+};
+const ModalDeleteUser = (props: propsType) => {
+  const { modalDeleteUser, setModalDeleteuser, setUserData, session, setToaster } = props;
   const [loading, setLoading] = useState(false);
-  const { data }: any = useSession();
 
   const deleteUser = async () => {
-    const result = await UserServices.deleteUser(modalDeleteUser.id, data?.accessToken);
+    const result = await UserServices.deleteUser(modalDeleteUser.id, session.accessToken);
     if (result.status) {
       const { data } = await UserServices.getAllUsers();
+
       setModalDeleteuser({});
+      setToaster({ message: "Delete user success", varian: "Succes" });
       setUserData(data.data);
       setLoading(false);
     } else {
+      setToaster({ message: "Delete user failed", varian: "Error" });
       setLoading(false);
     }
   };

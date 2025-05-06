@@ -1,5 +1,5 @@
 const AdimnProflePage = () => {
-  return <div>adimn profile page</div>;
+  return <div>admin profile page</div>;
 };
 
 export default AdimnProflePage;

@@ -7,6 +7,7 @@ type InputProps = {
   placeholder?: string;
   defaultValue?: string;
   disabled?: boolean;
+  className?: string;
 };
 
 const Input = (props: InputProps) => {

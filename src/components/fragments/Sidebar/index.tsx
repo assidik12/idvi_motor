@@ -18,7 +18,7 @@ const SidebarView = (props: propsType) => {
   return (
     <div className={style.sidebar}>
       <div className={style.sidebar__top}>
-        <h1 className={style.sidebar__top__title}>Admin Panel</h1>
+        <h1 className={style.sidebar__top__title}>My Dashboard</h1>
         <div className={style.sidebar__top__list}>
           {lists.map((list) => (
             <Link href={list.href} key={list.title} className={`${style.sidebar__top__list__item} ${pathname === list.href ? style.sidebar__top__list__item__active : ""}`}>

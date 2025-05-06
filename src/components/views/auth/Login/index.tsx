@@ -1,13 +1,13 @@
 import styles from "./Login.module.scss";
 import { Google } from "@mui/icons-material";
-import { FormEvent, useState } from "react";
+import { Dispatch, FormEvent, SetStateAction, useState } from "react";
 import { useRouter } from "next/router";
 import { signIn } from "next-auth/react";
 import Input from "@/components/ui/input";
 import Button from "@/components/ui/button";
 import AuthLayout from "@/components/layouts/AuthLayout";
 
-const LoginView = (props: any) => {
+const LoginView = ({ setToaster }: { setToaster: Dispatch<SetStateAction<{}>> }) => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const { push, query } = useRouter();
@@ -29,19 +29,20 @@ const LoginView = (props: any) => {
       });
       if (!res?.error) {
         setLoading(false);
+        setToaster({ message: "Login Success", varian: "Succes" });
         form.reset();
         push(callbackUrl);
       } else {
         setLoading(false);
-        setError("Invalid email or password");
+        setToaster({ message: "Login Failed", varian: "Error" });
       }
     } catch (error) {
       setLoading(false);
-      setError("Invalid email or password");
+      setToaster({ message: "Login Failed", varian: "Error" });
     }
   };
   return (
-    <AuthLayout error={error} title="Login" link="/auth/register" linkTitle="sign up" description="dont have an account?">
+    <AuthLayout title="Login" link="/auth/register" linkTitle="sign up" description="dont have an account?" setToaster={setToaster}>
       <form onSubmit={handlesubmit}>
         <Input name="email" label="Email" type="email" placeholder="masukan email" />
         <Input name="password" label="Password" type="password" placeholder="masukkan password" />

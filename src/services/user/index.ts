@@ -14,6 +14,18 @@ export const UserServices = {
         Authorization: `Bearer ${token}`,
       },
     }),
+  getProfile: (token: string) =>
+    instance.get("/api/user/profile", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
+  updateProfile: (token: string, data: any) =>
+    instance.put(`/api/user/profile`, data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
 };
 
 export default UserServices;

@@ -3,30 +3,41 @@ import style from "./ModalUpdateUser.module.scss";
 import Input from "@/components/ui/input";
 import Modal from "@/components/ui/modal";
 import Select from "@/components/ui/Select";
-import { FormEvent, useState } from "react";
+import { Dispatch, FormEvent, SetStateAction, useState } from "react";
 import UserServices from "@/services/user";
-import { useSession } from "next-auth/react";
+import { User } from "@/types/user.type";
 
-const ModalUpdateUser = (props: any) => {
-  const { modalUpdateUser, setModalUpdateuser, setUserData } = props;
+type propsType = {
+  modalUpdateUser: Dispatch<SetStateAction<any>> | any;
+  setModalUpdateuser: Dispatch<SetStateAction<any>>;
+  setUserData: Dispatch<SetStateAction<any>>;
+  userData: User | any;
+  session: any;
+  setToaster: Dispatch<SetStateAction<{}>>;
+};
+
+const ModalUpdateUser = (props: propsType) => {
+  const { userData, modalUpdateUser, setModalUpdateuser, setUserData, session, setToaster } = props;
   const [loading, setLoading] = useState(false);
-  const { data }: any = useSession();
+
   const handleUpdateUser = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
-
     const form: any = e.target as HTMLFormElement;
     const query = {
       role: form.role.value,
     };
 
-    const resut = await UserServices.updateUser(modalUpdateUser.id, query, data?.accessToken);
+    const resut = await UserServices.updateUser(userData[0].id, query, session?.accessToken);
     if (resut.status) {
       setModalUpdateuser({});
       setLoading(false);
       const { data } = await UserServices.getAllUsers();
+      setToaster({ message: "updated user success", varian: "Succes" });
+
       setUserData(data.data);
     } else {
+      setToaster({ message: "Updated user failed", varian: "Error" });
       setLoading(false);
     }
   };
