@@ -27,13 +27,13 @@ export async function SignUp(userData: userData, callback: Function) {
     userData.updated_at = new Date();
     userData.image = "";
 
-    await addData("users", userData)
-      .then((res) => {
-        callback({ status: true, message: res.id });
-      })
-      .catch((err) => {
-        callback({ status: false, message: err.message });
-      });
+    await addData("users", userData, (res: any) => {
+      if (res.status) {
+        callback({ status: true, data: res.path.replace("users/", "") });
+      } else {
+        callback({ status: false, message: res.message });
+      }
+    });
   }
 }
 
@@ -55,13 +55,13 @@ export async function SignInWithGoogle(userData: userData, callback: Function) {
     userData.updated_at = new Date();
     userData.password = "";
 
-    await addData("users", userData)
-      .then((res) => {
-        callback({ status: true, data: res.path.replace("users/", "") });
-      })
-      .catch((err) => {
-        callback({ status: false, message: err.message });
-      });
+    await addData("users", userData, (res: any) => {
+      if (res.status) {
+        callback({ status: true, data: { ...userData, id: res.path.replace("users/", "") } });
+      } else {
+        callback({ status: false, message: res.message });
+      }
+    });
   } else {
     userData.role = data[0].role;
 
