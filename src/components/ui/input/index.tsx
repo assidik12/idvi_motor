@@ -8,6 +8,8 @@ type InputProps = {
   defaultValue?: string;
   disabled?: boolean;
   className?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  value?: string;
 };
 
 const Input = (props: InputProps) => {
@@ -18,7 +20,18 @@ const Input = (props: InputProps) => {
           {props.label}
         </label>
       )}
-      <input type={props.type} name={props.name} placeholder={props.placeholder} id={props.name} className={styles.container__input} required={true} defaultValue={props.defaultValue} disabled={props.disabled} />
+      <input
+        type={props.type}
+        name={props.name}
+        onChange={props.onChange}
+        value={props.value}
+        placeholder={props.placeholder}
+        id={props.name}
+        className={styles.container__input}
+        required={true}
+        defaultValue={props.defaultValue}
+        disabled={props.disabled}
+      />
     </div>
   );
 };

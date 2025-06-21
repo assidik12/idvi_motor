@@ -34,14 +34,16 @@ const ModalDeleteUser = (props: propsType) => {
   };
   return (
     <Modal onClose={() => setModalDeleteuser({})}>
-      <h1 className={style.title}>Are you sure to delete {modalDeleteUser.fullname}?</h1>
-      <div className={style.button}>
-        <Button className={style.button__delete} onClick={deleteUser}>
-          {loading ? "loading..." : "Delete"}
-        </Button>
-        <Button onClick={() => setModalDeleteuser({})} className={style.button__cancel}>
-          Cancel
-        </Button>
+      <div className="p-4 flex flex-col items-center">
+        <h1 className="text-2xl font-bold">Are you sure to delete {modalDeleteUser.fullname}?</h1>
+        <div className="flex justify-center gap-2 py-3">
+          <Button varian="danger" className={style.button__delete} onClick={deleteUser}>
+            {loading ? "loading..." : "Delete"}
+          </Button>
+          <Button onClick={() => setModalDeleteuser({})} className={style.button__cancel}>
+            Cancel
+          </Button>
+        </div>
       </div>
     </Modal>
   );

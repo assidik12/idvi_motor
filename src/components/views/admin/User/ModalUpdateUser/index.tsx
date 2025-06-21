@@ -43,23 +43,25 @@ const ModalUpdateUser = (props: propsType) => {
   };
   return (
     <Modal onClose={() => setModalUpdateuser({})}>
-      <h1 className={style.title}>changes role</h1>
-      <form onSubmit={handleUpdateUser} className={style.form}>
-        <Input label="Email" name="email" type="email" defaultValue={modalUpdateUser.email} disabled />
-        <Input label="fullname" name="fullname" type="fullname" defaultValue={modalUpdateUser.fullname} disabled />
-        <Select
-          name="role"
-          label="role"
-          options={[
-            { value: "admin", label: "admin" },
-            { value: "user", label: "user" },
-          ]}
-          defaultValue={modalUpdateUser.role}
-        />
-        <Button type="submit" varian="primary">
-          {loading ? "loading..." : "update"}
-        </Button>
-      </form>
+      <div className="p-4 flex flex-col items-center">
+        <h1 className="text-2xl font-bold">changes role</h1>
+        <form onSubmit={handleUpdateUser} className="flex flex-col gap-4">
+          <Input label="Email" name="email" type="email" defaultValue={modalUpdateUser.email} disabled />
+          <Input label="fullname" name="fullname" type="fullname" defaultValue={modalUpdateUser.fullname} disabled />
+          <Select
+            name="role"
+            label="role"
+            options={[
+              { value: "admin", label: "admin" },
+              { value: "user", label: "user" },
+            ]}
+            defaultValue={modalUpdateUser.role}
+          />
+          <Button type="submit" varian="primary">
+            {loading ? "loading..." : "update"}
+          </Button>
+        </form>
+      </div>
     </Modal>
   );
 };

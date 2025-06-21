@@ -22,7 +22,8 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
   return (
     <SessionProvider session={session}>
       {!disableNavbar.includes(pathname.split("/")[1]) && <NavbarView />}
-      <Component {...pageProps} setToaster={setToaster} />;{Object.keys(toaster).length > 0 && <Toaster message={toaster.message} varian={toaster.varian} setToaster={setToaster} />}
+      <Component {...pageProps} setToaster={setToaster} />
+      {Object.keys(toaster).length > 0 && <Toaster message={toaster.message} varian={toaster.varian} setToaster={setToaster} />}
     </SessionProvider>
   );
 }

@@ -7,10 +7,6 @@ import ModalDeleteUser from "./ModalDeleteUser";
 import { User } from "@/types/user.type";
 import { useSession } from "next-auth/react";
 
-type propsType = {
-  setToaster: Dispatch<SetStateAction<{}>>;
-};
-
 const UserAdminView = (props: any) => {
   const { users, setToaster } = props;
   const { data }: any = useSession();

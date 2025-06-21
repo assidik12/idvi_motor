@@ -4,10 +4,6 @@ import { User } from "@/types/user.type";
 import { useSession } from "next-auth/react";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
-type propsType = {
-  setToaster: Dispatch<SetStateAction<{}>>;
-};
-
 const UserProfilePage = ({ setToaster }: any) => {
   const [users, setUsers] = useState<User | any>({});
   const session: any = useSession();

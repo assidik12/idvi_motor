@@ -72,7 +72,7 @@ const ProfileMemberview = ({ profile, setProfile, session, setToaster }: propsTy
       setToaster({ message: "Image size must be less than 1MB", varian: "Warning" });
     }
     if (file) {
-      await uploadFile(profile.id, file, async (newImageUrl: string) => {
+      await uploadFile(profile.id, "profile", file, async (newImageUrl: string) => {
         setProfile({ ...profile, image: newImageUrl });
         const data = {
           image: newImageUrl,

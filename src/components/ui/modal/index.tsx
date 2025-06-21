@@ -1,5 +1,4 @@
 import React, { Dispatch, useEffect, useRef } from "react";
-import styles from "./Modal.module.scss";
 
 const Modal = ({ children, onClose }: { children: React.ReactNode; onClose: Dispatch<any> }) => {
   const ref: any = useRef();
@@ -15,9 +14,8 @@ const Modal = ({ children, onClose }: { children: React.ReactNode; onClose: Disp
     };
   }, [onClose]);
   return (
-    <div className={styles.modal}>
-      <div className={styles.modal__content} ref={ref}>
-        {/* <button onClick={() => onClose(false)}>X</button> */}
+    <div id="userManagementModal" className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-opacity-25 backdrop-blur-md transition-opacity duration-300 ease-in-out w-full">
+      <div className="bg-white rounded-xl shadow-2xl w-full max-w-4xl transform transition-all duration-300 ease-in-out scale-100 opacity-100" role="dialog" aria-modal="true" aria-labelledby="modal-title" ref={ref}>
         {children}
       </div>
     </div>
