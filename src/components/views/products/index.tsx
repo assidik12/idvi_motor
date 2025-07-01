@@ -383,7 +383,7 @@ const ProductView = (props: any) => {
                       </a>
                     </li>
                     <li>
-                      <a
+                      <Button
                         onClick={() => {
                           if (session.data) {
                             signOut();
@@ -393,9 +393,10 @@ const ProductView = (props: any) => {
                           }
                         }}
                         className="hover:text-white hover:cursor-pointer hover:underline text-sm"
+                        varian={session.data ? "secondary" : "primary"}
                       >
                         {session.data ? "Keluar" : "Masuk"}
-                      </a>
+                      </Button>
                     </li>
                   </ul>
                 </div>
