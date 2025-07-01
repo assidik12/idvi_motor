@@ -1,6 +1,8 @@
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 
 const NavbarView = () => {
+  const session: any = useSession();
   const toggleMobileMenu = (e: React.MouseEvent) => {
     e.preventDefault();
     const mobileMenu = document.getElementById("mobile-menu");
@@ -10,21 +12,28 @@ const NavbarView = () => {
     <header className="bg-brand-blue sticky top-0 z-50 shadow-lg">
       <nav className="container mx-auto px-6 py-4 flex justify-between items-center">
         <a href="#" className="text-2xl font-bold text-white">
-          Supacars
+          Garasi-Kita
         </a>
         <div className="hidden md:flex space-x-6 items-center">
           <Link href="/" className="text-gray-300 hover:text-white transition duration-300">
             Beranda
           </Link>
-          <Link href="/customers/contact" className="text-gray-300 hover:text-white transition duration-300">
-            contact
-          </Link>
           <Link href="/product/gallery" className="text-gray-300 hover:text-white transition duration-300">
             Galeri
           </Link>
-          <Link href="/product/new" className="text-gray-300 hover:text-white transition duration-300">
+          <Link href="/product/sell" className="text-gray-300 hover:text-white transition duration-300">
             Jual
           </Link>
+          <Link href={`/#dealer`} className="text-gray-300 hover:text-white transition duration-300">
+            Adrress
+          </Link>
+          {session.data?.accessToken ? (
+            <Link href="/member/profile" className="text-gray-300 hover:text-white transition duration-300">
+              Profil
+            </Link>
+          ) : (
+            <></>
+          )}
         </div>
         <div className="md:hidden">
           <button id="mobile-menu-button" onClick={toggleMobileMenu} className="text-gray-300 hover:text-white focus:outline-none">

@@ -1,4 +1,4 @@
-import ProfileMemberview from "@/components/views/member/Profile";
+import TransactionMemberview from "@/components/views/member/Transaction";
 import UserServices from "@/services/user";
 import { User } from "@/types/user.type";
 import { useSession } from "next-auth/react";
@@ -19,7 +19,7 @@ const UserProfilePage = ({ setToaster }: any) => {
 
   return (
     <>
-      <ProfileMemberview profile={users} session={session} setProfile={setUsers} setToaster={setToaster} />
+      <TransactionMemberview profile={users} session={session} setProfile={setUsers} setToaster={setToaster} />
     </>
   );
 };

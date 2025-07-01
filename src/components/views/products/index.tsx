@@ -1,164 +1,16 @@
 import Button from "@/components/ui/button";
 import formatCurrency from "@/utils/currency";
 import Image from "next/image";
-import { Fragment, useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { TypeCar } from "@/types/product.type";
-import { CheckCircle, ChevronLeft, Phone, ShoppingCart, X } from "lucide-react";
-
-const PreOrderModal: React.FC<{ isOpen: boolean; onClose: () => void; car: TypeCar }> = ({ isOpen, onClose, car }) => {
-  const [isSubmitted, setIsSubmitted] = useState(false);
-
-  useEffect(() => {
-    if (isOpen) {
-      setIsSubmitted(false);
-    }
-  }, [isOpen]);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Logika pengiriman form bisa ditambahkan di sini
-    setIsSubmitted(true);
-  };
-
-  if (!isOpen) return null;
-
-  return (
-    <div className="fixed inset-0 bg-black bg-opacity-75 flex justify-center items-center z-50 transition-opacity duration-300" onClick={onClose}>
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl p-8 m-4 max-w-lg w-full transform transition-all duration-300 scale-95 hover:scale-100" onClick={(e) => e.stopPropagation()}>
-        <button onClick={onClose} className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200">
-          <X className="h-6 w-6" />
-        </button>
-        {!isSubmitted ? (
-          <>
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Formulir Pre-Order</h2>
-            <p className="text-gray-600 dark:text-gray-300 mt-1">
-              Anda akan melakukan pre-order untuk{" "}
-              <span className="font-semibold">
-                {car.make} {car.model}
-              </span>
-              .
-            </p>
-            <form onSubmit={handleSubmit} className="mt-6 space-y-4">
-              <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-200">
-                  Nama Lengkap
-                </label>
-                <input type="text" id="name" required className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600" />
-              </div>
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-200">
-                  Alamat Email
-                </label>
-                <input type="email" id="email" required className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600" />
-              </div>
-              <div>
-                <label htmlFor="phone" className="block text-sm font-medium text-gray-700 dark:text-gray-200">
-                  Nomor Telepon
-                </label>
-                <input type="tel" id="phone" required className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600" />
-              </div>
-              <button type="submit" className="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg shadow-lg hover:bg-blue-700 transition-transform transform hover:scale-105">
-                Kirim Pre-Order
-              </button>
-            </form>
-          </>
-        ) : (
-          <div className="text-center py-8">
-            <CheckCircle className="h-20 w-20 text-green-500 mx-auto animate-pulse" />
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mt-4">Terima Kasih!</h2>
-            <p className="text-gray-600 dark:text-gray-300 mt-2">Permintaan pre-order Anda telah kami terima. Tim kami akan segera menghubungi Anda.</p>
-            <button onClick={onClose} className="mt-6 w-full bg-gray-200 text-gray-800 font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-gray-300 dark:bg-gray-600 dark:text-white dark:hover:bg-gray-500">
-              Tutup
-            </button>
-          </div>
-        )}
-      </div>
-    </div>
-  );
-};
-
-export const CarDetailPage: React.FC<{ car: TypeCar; onBack: () => void }> = ({ car, onBack }) => {
-  const [activeImage, setActiveImage] = useState(car.image);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  return (
-    <Fragment>
-      <main className="container mx-auto px-6 py-8">
-        <button onClick={onBack} className="flex items-center gap-2 text-blue-600 dark:text-blue-400 font-semibold hover:underline mb-6">
-          <ChevronLeft className="h-5 w-5" />
-          Kembali ke Galeri
-        </button>
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
-          {/* Galeri Gambar */}
-          <div className="lg:col-span-3">
-            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden mb-4">
-              <img src={activeImage || ""} alt={`Tampilan ${car.model}`} className="w-full h-auto object-cover aspect-video transition-all duration-300" />
-            </div>
-            <div className="grid grid-cols-3 sm:grid-cols-5 gap-2">
-              {/* {car.image.map((url, index) => (
-                <button key={index} onClick={() => setActiveImage(url)} className={`rounded-lg overflow-hidden border-2 ${activeImage === url ? "border-blue-500" : "border-transparent"}`}>
-                  <img src={url || ""} alt={`Thumbnail ${index + 1}`} className="w-full h-full object-cover aspect-video" />
-                </button>
-              ))} */}
-            </div>
-          </div>
-
-          {/* Detail Informasi & Aksi */}
-          <div className="lg:col-span-2">
-            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-              <span className={`inline-block text-white text-xs font-bold py-1 px-3 rounded-full mb-2 ${car.condition === "Baru" ? "bg-blue-500" : "bg-green-500"}`}>{car.condition}</span>
-              <p className="text-sm text-gray-500 dark:text-gray-400">{car.make}</p>
-              <h1 className="text-3xl font-extrabold text-gray-900 dark:text-white">{car.model}</h1>
-              <p className="text-gray-600 dark:text-gray-300 mt-1">
-                {car.year} • {car.type}
-              </p>
-
-              <p className="text-4xl font-bold text-blue-600 dark:text-blue-400 mt-4">{formatCurrency(car.price)}</p>
-
-              <p className="text-gray-700 dark:text-gray-200 mt-4">{car.description}</p>
-
-              <div className="mt-6 border-t pt-4 dark:border-gray-700">
-                <h3 className="text-lg font-semibold text-gray-800 dark:text-white">Spesifikasi Utama</h3>
-                <ul className="mt-2 space-y-2 text-gray-600 dark:text-gray-300">
-                  {car.specs &&
-                    Object.entries(car.specs).map(([key, value]) => (
-                      <li key={key} className="flex justify-between">
-                        <span className="font-medium text-gray-500 dark:text-gray-400">{key}</span>
-                        <span>{value}</span>
-                      </li>
-                    ))}
-                </ul>
-              </div>
-
-              <div className="mt-6 space-y-3">
-                <button
-                  onClick={() => setIsModalOpen(true)}
-                  className="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg shadow-lg flex items-center justify-center gap-2 hover:bg-blue-700 transition-transform transform hover:scale-105"
-                >
-                  <ShoppingCart className="h-5 w-5" />
-                  Pre-Order Sekarang
-                </button>
-                <button className="w-full bg-gray-200 text-gray-800 font-semibold py-3 px-4 rounded-lg shadow-md flex items-center justify-center gap-2 hover:bg-gray-300 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600">
-                  <Phone className="h-5 w-5" />
-                  Hubungi Customer Service
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </main>
-      <PreOrderModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} car={car} />
-    </Fragment>
-  );
-};
-
-const ImageComponent = ({ src, alt, className }: any) => {
-  return <Image src={src || "/placeholder-image.jpg"} alt={alt} className={className} width={400} height={224} objectFit="cover" />;
-};
+import TestimonialSection from "./Review";
+import Maps from "./Maps";
+import CarDetailPage from "./OrderModal";
+import { useSession } from "next-auth/react";
 
 const ProductView = (props: any) => {
-  const { products, session, signIn, signOut } = props;
+  const { reviews, products, session, signIn, signOut, setToaster } = props;
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedCar, setSelectedCar] = useState<TypeCar | null>(null);
   const itemsPerPage = 4;
@@ -252,39 +104,7 @@ const ProductView = (props: any) => {
             </div>
           </section>
 
-          {/* // search section */}
-          <section id="search-bar" className="bg-white py-12 md:py-16 -mt-10 md:-mt-16 relative z-10 mx-4 md:mx-auto max-w-4xl rounded-xl shadow-2xl">
-            <div className="container mx-auto px-6">
-              <h2 className="text-2xl font-semibold text-brand-dark-gray mb-6 text-center">Temukan Mobil Idamanmu</h2>
-              <form className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
-                <div className="col-span-1 md:col-span-2">
-                  <label htmlFor="search-keyword" className="block text-sm font-medium text-brand-light-gray mb-1">
-                    Kata Kunci (cth: Toyota Avanza)
-                  </label>
-                  <input
-                    type="text"
-                    id="search-keyword"
-                    name="search-keyword"
-                    placeholder="Masukkan merek atau model mobil"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-brand-accent focus:border-brand-accent transition duration-300"
-                  />
-                </div>
-                <button type="submit" className="w-full bg-brand-accent hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition duration-300 text-lg">
-                  Cari
-                </button>
-              </form>
-              <div className="mt-6 text-center">
-                <p className="text-sm text-brand-light-gray">
-                  Atau{" "}
-                  <a href="#" className="text-brand-accent hover:underline">
-                    lihat semua mobil
-                  </a>
-                </p>
-              </div>
-            </div>
-          </section>
-
-          {/* review section */}
+          {/* rating section */}
           <section className="py-16 md:py-24 bg-brand-gray">
             <div className="container mx-auto px-6">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
@@ -311,7 +131,7 @@ const ProductView = (props: any) => {
           <section id="mokas" className="py-16 md:py-24 bg-white">
             <div className="container mx-auto px-6">
               <div className="flex justify-between items-center mb-10">
-                <h2 className="text-3xl md:text-4xl font-bold text-brand-dark-gray">Super Car Terpopuler</h2>
+                <h2 className="text-3xl md:text-4xl font-bold text-brand-dark-gray">Mobil Terbaru</h2>
                 {/* Arahkan ke halaman yang menampilkan semua mokas jika ada */}
                 <a href="/semua-mokas" className="text-brand-accent hover:underline font-semibold flex items-center">
                   Lihat Semua
@@ -323,39 +143,43 @@ const ProductView = (props: any) => {
 
               {currentItems.length > 0 ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-                  {currentItems.map((item: any) => (
-                    <div key={item.id} className="bg-gray-50 rounded-xl overflow-hidden card-shadow transform hover:-translate-y-2 transition-transform duration-300 group">
-                      <div className="relative">
-                        <Image width={500} height={500} className="w-full h-56 object-cover" src={item.image} alt={`${item.make} ${item.model}`} />
-                        <span className={`absolute top-3 right-3 text-white text-xs font-bold py-1 px-3 rounded-full ${item.condition === "Baru" ? "bg-blue-500" : "bg-green-500"}`}>{item.condition}</span>
-                      </div>
-                      <div className="p-6">
-                        <h3 className="text-xl font-semibold text-brand-dark-gray mb-2 truncate" title={item.make + item.model}>
-                          {item.make + " " + item.model + " " + item.year}
-                        </h3>
-                        <p className="text-2xl font-bold text-brand-accent mb-1">{formatCurrency(item.price)}</p>
+                  {currentItems.map((item: any) =>
+                    item.condition === "New" ? (
+                      <div key={item.id} className="bg-gray-50 rounded-xl overflow-hidden card-shadow transform hover:-translate-y-2 transition-transform duration-300 group">
+                        <div className="relative">
+                          <Image width={500} height={500} className="w-full h-56 object-cover" src={item.image} alt={`${item.make} ${item.model}`} />
+                          <span className={`absolute top-3 right-3 text-white text-xs font-bold py-1 px-3 rounded-full ${item.condition === "Baru" ? "bg-blue-500" : "bg-green-500"}`}>{item.condition}</span>
+                        </div>
+                        <div className="p-6">
+                          <h3 className="text-xl font-semibold text-brand-dark-gray mb-2 truncate" title={item.make + item.model}>
+                            {item.make + " " + item.model + " " + item.year}
+                          </h3>
+                          <p className="text-2xl font-bold text-brand-accent mb-1">{formatCurrency(item.price)}</p>
 
-                        <h3 className="flex items-center mb-2 ">
-                          <span className="text-md text-brand-light-gray">Mileage : </span>
-                          <span className="ml-2">{item.mileage}</span>
-                        </h3>
-                        <p className="text-sm text-brand-light-gray mb-4 truncate">
-                          {item.description?.substring(0, 100) +
-                            (item.description?.length > 100
-                              ? "..."
-                              : "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ducimus ex repellat aliquid perferendis delectus totam est reprehenderit dolorem corporis, ea architecto debitis distinctio cum non blanditiis vero fugiat incidunt amet.")}
-                        </p>
-                        <Button
-                          className="w-full bg-brand-blue hover:bg-brand-blue-light text-white font-semibold py-2 px-4 rounded-lg transition duration-300 focus:outline-none focus:ring-2 focus:ring-brand-blue focus:ring-opacity-50"
-                          onClick={() => {
-                            setSelectedCar(item);
-                          }}
-                        >
-                          Lihat Detail
-                        </Button>
+                          <h3 className="flex items-center mb-2 ">
+                            <span className="text-md text-brand-light-gray">Mileage : </span>
+                            <span className="ml-2">{item.mileage}</span>
+                          </h3>
+                          <p className="text-sm text-brand-light-gray mb-4 truncate">
+                            {item.description?.substring(0, 100) +
+                              (item.description?.length > 100
+                                ? "..."
+                                : "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ducimus ex repellat aliquid perferendis delectus totam est reprehenderit dolorem corporis, ea architecto debitis distinctio cum non blanditiis vero fugiat incidunt amet.")}
+                          </p>
+                          <Button
+                            className="w-full bg-brand-blue hover:bg-brand-blue-light text-white font-semibold py-2 px-4 rounded-lg transition duration-300 focus:outline-none focus:ring-2 focus:ring-brand-blue focus:ring-opacity-50"
+                            onClick={() => {
+                              setSelectedCar(item);
+                            }}
+                          >
+                            Lihat Detail
+                          </Button>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    ) : (
+                      <></>
+                    )
+                  )}
                 </div>
               ) : (
                 <div className="text-center py-10">
@@ -421,62 +245,6 @@ const ProductView = (props: any) => {
             </div>
           </section>
 
-          {/* dealer */}
-          <section id="dealer" className="py-16 md:py-24 bg-brand-blue text-white">
-            <div className="container mx-auto px-6">
-              <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">Dealer Resmi Dekat Anda</h2>
-              <div className="map-placeholder h-80 max-md:h-[500px] w-full mb-48 max-md:mb-8">
-                <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.3890961145694!2d109.0549386!3d-6.963343!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e6fbc6532073a75%3A0x3c135d445f3545ff!2sBrother%20Cell!5e0!3m2!1sid!2sid!4v1690030509685!5m2!1sid!2sid"
-                  width="100%"
-                  height="500"
-                  style={{ border: 0, borderRadius: "10px", overflow: "hidden" }}
-                  loading="lazy"
-                ></iframe>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
-                <div className="bg-white/10 backdrop-blur-sm p-6 rounded-xl hover:bg-white/20 transition duration-300">
-                  <div className="flex justify-center mb-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-brand-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                  </div>
-                  <h3 className="text-xl font-semibold mb-2">Lokasi Strategis</h3>
-                  <p className="text-gray-300 text-sm">Mudah dijangkau dari berbagai area.</p>
-                </div>
-                <div className="bg-white/10 backdrop-blur-sm p-6 rounded-xl hover:bg-white/20 transition duration-300">
-                  <div className="flex justify-center mb-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-brand-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                  </div>
-                  <h3 className="text-xl font-semibold mb-2">Layanan Cepat</h3>
-                  <p className="text-gray-300 text-sm">Proses transaksi yang efisien.</p>
-                </div>
-                <div className="bg-white/10 backdrop-blur-sm p-6 rounded-xl hover:bg-white/20 transition duration-300">
-                  <div className="flex justify-center mb-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-brand-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                  </div>
-                  <h3 className="text-xl font-semibold mb-2">Terpercaya</h3>
-                  <p className="text-gray-300 text-sm">Dealer resmi dengan reputasi baik.</p>
-                </div>
-                <div className="bg-white/10 backdrop-blur-sm p-6 rounded-xl hover:bg-white/20 transition duration-300">
-                  <div className="flex justify-center mb-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-brand-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                    </svg>
-                  </div>
-                  <h3 className="text-xl font-semibold mb-2">Stok Lengkap</h3>
-                  <p className="text-gray-300 text-sm">Berbagai pilihan mobil tersedia.</p>
-                </div>
-              </div>
-            </div>
-          </section>
-
           {/* rekomendasi */}
           <section id="rekomendasi" className="py-16 md:py-24 bg-brand-gray">
             <div className="container mx-auto px-6">
@@ -489,32 +257,68 @@ const ProductView = (props: any) => {
                   </svg>
                 </Link>
               </div>
-              {products.length > 0 ? (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                  <div className="bg-white rounded-xl overflow-hidden card-shadow transform hover:-translate-y-2 transition-transform duration-300 group">
-                    <Image src="" alt="[Gambar mobil baru 1]" className="w-full h-56 object-cover group-hover:opacity-90 transition-opacity duration-300" />
-                    <div className="p-6">
-                      <h3 className="text-xl font-semibold text-brand-dark-gray mb-2">Hyundai Creta Prime</h3>
-                      <p className="text-2xl font-bold text-green-600 mb-1">Rp 400.000.000</p>
-                      <p className="text-sm text-brand-light-gray mb-4">SUV Kompak, Fitur Canggih</p>
-                      <button className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-300">Pesan Sekarang</button>
-                    </div>
-                  </div>
+              {currentItems.length > 0 ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                  {currentItems.map((item: any) =>
+                    item.condition === "Used" ? (
+                      <div key={item.id} className="bg-gray-50 rounded-xl overflow-hidden card-shadow transform hover:-translate-y-2 transition-transform duration-300 group">
+                        <div className="relative">
+                          <Image width={500} height={500} className="w-full h-56 object-cover" src={item.image} alt={`${item.make} ${item.model}`} />
+                          <span className={`absolute top-3 right-3 text-white text-xs font-bold py-1 px-3 rounded-full ${item.condition === "Baru" ? "bg-blue-500" : "bg-green-500"}`}>{item.condition}</span>
+                        </div>
+                        <div className="p-6">
+                          <h3 className="text-xl font-semibold text-brand-dark-gray mb-2 truncate" title={item.make + item.model}>
+                            {item.make + " " + item.model + " " + item.year}
+                          </h3>
+                          <p className="text-2xl font-bold text-brand-accent mb-1">{formatCurrency(item.price)}</p>
+
+                          <h3 className="flex items-center mb-2 ">
+                            <span className="text-md text-brand-light-gray">Mileage : </span>
+                            <span className="ml-2">{item.mileage}</span>
+                          </h3>
+                          <p className="text-sm text-brand-light-gray mb-4 truncate">
+                            {item.description?.substring(0, 100) +
+                              (item.description?.length > 100
+                                ? "..."
+                                : "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ducimus ex repellat aliquid perferendis delectus totam est reprehenderit dolorem corporis, ea architecto debitis distinctio cum non blanditiis vero fugiat incidunt amet.")}
+                          </p>
+                          <Button
+                            className="w-full bg-brand-blue hover:bg-brand-blue-light text-white font-semibold py-2 px-4 rounded-lg transition duration-300 focus:outline-none focus:ring-2 focus:ring-brand-blue focus:ring-opacity-50"
+                            onClick={() => {
+                              setSelectedCar(item);
+                            }}
+                          >
+                            Lihat Detail
+                          </Button>
+                        </div>
+                      </div>
+                    ) : (
+                      <></>
+                    )
+                  )}
                 </div>
               ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                  <div className="bg-white rounded-xl overflow-hidden card-shadow transform hover:-translate-y-2 transition-transform duration-300 group">
-                    <Image src="" alt="[Gambar mobil baru 1]" className="w-full h-56 object-cover group-hover:opacity-90 transition-opacity duration-300" />
-                    <div className="p-6">
-                      <h3 className="text-xl font-semibold text-brand-dark-gray mb-2">Hyundai Creta Prime</h3>
-                      <p className="text-2xl font-bold text-green-600 mb-1">Rp 400.000.000</p>
-                      <p className="text-sm text-brand-light-gray mb-4">SUV Kompak, Fitur Canggih</p>
-                      <button className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-300">Pesan Sekarang</button>
-                    </div>
-                  </div>
+                <div className="text-center gird xl-grid-cols-1 py-10">
+                  <p className="text-xl text-brand-light-gray">Tidak ada mobil tersedia</p>
                 </div>
               )}
             </div>
+          </section>
+
+          {/* dealer */}
+          <section id="dealer" className="py-16 md:py-24 bg-brand-blue text-white">
+            <Maps />
+          </section>
+
+          {/* review */}
+          <section id="review" className="py-16 md:py-24 bg-brand-gray">
+            {reviews.length > 0 ? (
+              <TestimonialSection reviews={reviews} />
+            ) : (
+              <div className="text-center gird xl-grid-cols-1 py-10">
+                <p className="text-xl text-brand-light-gray">Tidak ada testimoni tersedia</p>
+              </div>
+            )}
           </section>
 
           {/* footer */}
@@ -579,7 +383,17 @@ const ProductView = (props: any) => {
                       </a>
                     </li>
                     <li>
-                      <a onClick={session.data ? () => signOut() : () => signIn()} className="hover:text-white hover:cursor-pointer hover:underline text-sm">
+                      <a
+                        onClick={() => {
+                          if (session.data) {
+                            signOut();
+                            setToaster({ message: "Berhasil keluar", varian: "Success" });
+                          } else {
+                            signIn();
+                          }
+                        }}
+                        className="hover:text-white hover:cursor-pointer hover:underline text-sm"
+                      >
                         {session.data ? "Keluar" : "Masuk"}
                       </a>
                     </li>

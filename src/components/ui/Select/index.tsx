@@ -1,5 +1,3 @@
-import styles from "./Select.module.scss";
-
 type SelectProps = {
   name: string;
   label?: string;
@@ -16,9 +14,13 @@ type OptionProps = {
 const Select = (props: SelectProps) => {
   const { name, label, defaultValue, disabled, options } = props;
   return (
-    <div className={styles.container}>
-      {label && <label htmlFor={name}>{label}</label>}
-      <select className={styles.container__select} name={name} id={name} defaultValue={defaultValue} disabled={disabled}>
+    <div className="container w-80 mb-3 flex flex-col items-center">
+      {label && (
+        <label htmlFor={name} className="text-base mb-2">
+          {label}
+        </label>
+      )}
+      <select className="w-80 px-3 py-2 border-none border-b border-gray-300 rounded-sm disabled:cursor-not-allowed disabled:opacity-70" name={name} id={name} defaultValue={defaultValue} disabled={disabled}>
         {options?.map((option) => (
           <option key={option.value} value={option.value}>
             {option.label}

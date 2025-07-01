@@ -1,5 +1,4 @@
 import { Dispatch, SetStateAction } from "react";
-import styles from "./Auth.module.scss";
 import Link from "next/link";
 
 type AuthLayoutProps = {
@@ -14,11 +13,14 @@ type AuthLayoutProps = {
 const AuthLayout = (props: AuthLayoutProps) => {
   const { title, children, link, linkTitle, description } = props;
   return (
-    <div className={styles.auth}>
-      <h1 className={styles.auth__title}>{title}</h1>
-      <div className={styles.auth__form}>{children}</div>
-      <p className={styles.auth__desc}>
-        {description} <Link href={link}>{linkTitle}</Link>
+    <div className="flex flex-col items-center justify-center h-screen w-screen">
+      <h1 className="mb-4 text-3xl font-bold">{title}</h1>
+      <div className="w-2/5 p-5 shadow-lg rounded-xl mb-5 flex flex-col items-center gap-2">{children}</div>
+      <p className="mb-2 text-sm">
+        {description}{" "}
+        <Link href={link} className="text-blue-500 hover:underline">
+          {linkTitle}
+        </Link>
       </p>
     </div>
   );

@@ -1,5 +1,3 @@
-import styles from "./input.module.scss";
-
 type InputProps = {
   name: string;
   label?: string;
@@ -14,9 +12,9 @@ type InputProps = {
 
 const Input = (props: InputProps) => {
   return (
-    <div className={styles.container}>
+    <div className="w-4/5 mb-4 flex flex-col">
       {props.label && (
-        <label htmlFor={props.name} className={styles.container__label}>
+        <label htmlFor={props.name} className="mb-2.5 text-lg">
           {props.label}
         </label>
       )}
@@ -27,10 +25,10 @@ const Input = (props: InputProps) => {
         value={props.value}
         placeholder={props.placeholder}
         id={props.name}
-        className={styles.container__input}
         required={true}
         defaultValue={props.defaultValue}
         disabled={props.disabled}
+        className="min-w-4/5 p-2.5 rounded-lg border border-gray-300 focus:outline-none focus:border-blue-500 disabled:cursor-not-allowed disabled:bg-gray-200 disabled:opacity-70"
       />
     </div>
   );

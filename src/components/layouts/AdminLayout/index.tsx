@@ -1,5 +1,5 @@
 import SidebarView from "@/components/fragments/Sidebar";
-import style from "./AdminLayout.module.scss";
+import { useState } from "react";
 
 const listSideBarItem = [
   {
@@ -37,11 +37,32 @@ type propsType = {
 
 const AdminLayout = (props: propsType) => {
   const { children } = props;
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
-    <div className={style.container}>
-      <SidebarView lists={listSideBarItem} />
-      <div className={style.container__main}>{children}</div>
+    <div className="relative min-h-screen md:flex">
+      {/* Tombol Hamburger untuk Mobile */}
+      <div className="bg-black text-gray-100 flex justify-between md:hidden">
+        <a href="#" className="block p-4 text-white font-bold">
+          Logo
+        </a>
+        <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="p-4 focus:outline-none focus:bg-gray-700">
+          <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+          </svg>
+        </button>
+      </div>
+
+      {/* Sidebar */}
+      <div className={`z-20 absolute bg-black text-white w-64 min-h-screen overflow-y-auto transition-transform transform md:relative md:translate-x-0 ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"}`}>
+        <div className="p-5 text-center">
+          <h1 className="text-2xl font-bold">Admin Dashboard</h1>
+        </div>
+        <SidebarView lists={listSideBarItem} />
+      </div>
+
+      {/* Konten Utama */}
+      <main className="flex-1 p-4 sm:p-6 md:p-10 bg-gray-50">{children}</main>
     </div>
   );
 };

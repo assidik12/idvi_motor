@@ -1,9 +1,7 @@
 import Modal from "@/components/ui/modal";
-import style from "./ModalDeleteUser.module.scss";
 import Button from "@/components/ui/button";
 import UserServices from "@/services/user";
 import { Dispatch, SetStateAction, useState } from "react";
-import { useSession } from "next-auth/react";
 import { User } from "@/types/user.type";
 
 type propsType = {
@@ -37,10 +35,10 @@ const ModalDeleteUser = (props: propsType) => {
       <div className="p-4 flex flex-col items-center">
         <h1 className="text-2xl font-bold">Are you sure to delete {modalDeleteUser.fullname}?</h1>
         <div className="flex justify-center gap-2 py-3">
-          <Button varian="danger" className={style.button__delete} onClick={deleteUser}>
+          <Button varian="danger" className="w-1/2 p-2.5 rounded-lg hover:bg-red-600" onClick={deleteUser}>
             {loading ? "loading..." : "Delete"}
           </Button>
-          <Button onClick={() => setModalDeleteuser({})} className={style.button__cancel}>
+          <Button onClick={() => setModalDeleteuser({})} className={"rounded-lg p-2.5 w-1/2 bg-gray-500 text-black hover:bg-gray-600"}>
             Cancel
           </Button>
         </div>

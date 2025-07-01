@@ -89,7 +89,6 @@ const ModalUpdateProduct = (props: any) => {
       }
     } catch (error: any) {
       // Tangani semua kemungkinan error (network, upload, update) di satu tempat
-      console.error("Gagal memperbarui produk:", error);
       setIsLoading(false);
       setModalUpdateProduct({});
       setToaster({

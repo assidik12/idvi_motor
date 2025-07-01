@@ -2,14 +2,15 @@ import React, { useState, useEffect, useMemo, Fragment } from "react";
 import { Search, Car, ChevronLeft, ChevronRight } from "lucide-react";
 import { TypeCar, carsData } from "@/types/product.type";
 import formatCurrency from "@/utils/currency";
-import { CarDetailPage } from "@/components/views/products";
+import Image from "next/image";
+import CarDetailPage from "@/components/views/products/OrderModal";
 
 // --- KOMPONEN KARTU MOBIL ---
 const CarCard: React.FC<{ car: TypeCar; onSelect: () => void }> = ({ car, onSelect }) => {
   return (
     <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-2xl flex flex-col">
       <div className="relative">
-        <img className="w-full h-56 object-cover" src={car.image[0]} alt={`${car.make} ${car.model}`} />
+        <Image height={10} width={10} className="w-full h-56 object-cover" src={car.image} alt={`${car.make} ${car.model}`} />
         <span className={`absolute top-3 right-3 text-white text-xs font-bold py-1 px-3 rounded-full ${car.condition === "Baru" ? "bg-blue-500" : "bg-green-500"}`}>{car.condition}</span>
       </div>
       <div className="p-6 flex flex-col flex-grow">
@@ -110,7 +111,7 @@ const CarGalleryApp = () => {
 
   // Tampilan akan berganti berdasarkan state selectedCar
   return (
-    <div className="bg-gray-100 dark:bg-gray-900 min-h-screen font-sans">
+    <div className="bg-gray-100 dark:bg-gray-900 min-h-screen font-sans flex flex-col justify-between">
       {selectedCar ? (
         <CarDetailPage car={selectedCar} onBack={() => setSelectedCar(null)} />
       ) : (

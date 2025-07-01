@@ -1,4 +1,3 @@
-import styles from "./Login.module.scss";
 import { Google } from "@mui/icons-material";
 import { Dispatch, FormEvent, SetStateAction, useState } from "react";
 import { useRouter } from "next/router";
@@ -29,7 +28,7 @@ const LoginView = ({ setToaster }: { setToaster: Dispatch<SetStateAction<{}>> })
       });
       if (!res?.error) {
         setLoading(false);
-        setToaster({ message: "Login Success", varian: "Succes" });
+        setToaster({ message: "Login Success", varian: "Success" });
         form.reset();
         push(callbackUrl);
       } else {
@@ -43,16 +42,16 @@ const LoginView = ({ setToaster }: { setToaster: Dispatch<SetStateAction<{}>> })
   };
   return (
     <AuthLayout title="Login" link="/auth/register" linkTitle="sign up" description="dont have an account?" setToaster={setToaster}>
-      <form onSubmit={handlesubmit}>
+      <form onSubmit={handlesubmit} className="w-full flex flex-col gap-4 items-center justify-center rounded-xl mb-5">
         <Input name="email" label="Email" type="email" placeholder="masukan email" />
         <Input name="password" label="Password" type="password" placeholder="masukkan password" />
 
-        <Button type="submit" varian="primary" className={styles.login__form__button}>
+        <Button type="submit" varian="primary" className={"w-2/4 mb-2.5 p-2"}>
           {loading ? "loading..." : "Login"}
         </Button>
       </form>
-      <Button type="button" varian="primary" className={styles.login__form__button} onClick={() => signIn("google", { callbackUrl: callbackUrl, redirect: false })}>
-        {<Google className={styles.login__form__button__icon} />}Login with Google
+      <Button type="button" varian="primary" className={"w-2/4 mb-2.5 p-2"} onClick={() => signIn("google", { callbackUrl: callbackUrl, redirect: false })}>
+        {<Google className={"mr-2 Text-2xl"} />}Login with Google
       </Button>
     </AuthLayout>
   );

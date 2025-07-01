@@ -1,4 +1,4 @@
-import { retrieveDataByField, retrieveDataById, updateData } from "@/lib/firebase/service";
+import { retrieveDataById, updateData } from "@/lib/firebase/service";
 import { compare, hash } from "bcrypt";
 import jwt from "jsonwebtoken";
 import type { NextApiRequest, NextApiResponse } from "next";

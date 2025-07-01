@@ -1,5 +1,4 @@
 import Button from "@/components/ui/button";
-import style from "./ModalUpdateUser.module.scss";
 import Input from "@/components/ui/input";
 import Modal from "@/components/ui/modal";
 import Select from "@/components/ui/Select";
@@ -28,12 +27,12 @@ const ModalUpdateUser = (props: propsType) => {
       role: form.role.value,
     };
 
-    const resut = await UserServices.updateUser(userData[0].id, query, session?.accessToken);
-    if (resut.status) {
+    const { status } = await UserServices.updateUser(userData[0].id, query, session?.accessToken);
+    if (status) {
       setModalUpdateuser({});
       setLoading(false);
       const { data } = await UserServices.getAllUsers();
-      setToaster({ message: "updated user success", varian: "Succes" });
+      setToaster({ message: "Updated user success", varian: "Success" });
 
       setUserData(data.data);
     } else {

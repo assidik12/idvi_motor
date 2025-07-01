@@ -1,4 +1,3 @@
-import styles from "./Register.module.scss";
 import { Dispatch, FormEvent, SetStateAction, useState } from "react";
 import { useRouter } from "next/router";
 import Input from "@/components/ui/input";
@@ -21,10 +20,12 @@ const RegisterView = ({ setToaster }: { setToaster: Dispatch<SetStateAction<{}>>
     };
     try {
       const result = await AUthService.registerAccouunt(data);
-      if (!result.status) {
+
+      if (result.status === 200) {
         setLoading(false);
         form.reset();
-        setToaster({ message: "Register success", varian: "Succes" });
+
+        setToaster({ message: "Register success", varian: "Success" });
         push("/auth/login");
       }
     } catch (error) {
@@ -35,15 +36,13 @@ const RegisterView = ({ setToaster }: { setToaster: Dispatch<SetStateAction<{}>>
   };
   return (
     <AuthLayout setToaster={setToaster} link="/auth/login" description="have an account?" linkTitle="sign in" title="Register">
-      <form onSubmit={handlesubmit}>
-        <div className={styles.register__form__item}>
-          <Input name="fullname" label="Fullname" type="text" placeholder="masukkan nama lengkap" />
-          <Input name="email" label="Email" type="email" placeholder="masukkan email" />
-          <Input name="password" label="Password" type="password" placeholder="masukkan password" />
-          <Button type="submit" varian="primary" className={styles.register__form__button}>
-            {loading ? "loading..." : "Register"}
-          </Button>
-        </div>
+      <form onSubmit={handlesubmit} className="w-full flex flex-col gap-4 items-center justify-center rounded-xl mb-5">
+        <Input name="fullname" label="Fullname" type="text" placeholder="masukkan nama lengkap" />
+        <Input name="email" label="Email" type="email" placeholder="masukkan email" />
+        <Input name="password" label="Password" type="password" placeholder="masukkan password" />
+        <Button type="submit" varian="primary" className={"w-2/4 mb-2.5 p-2"}>
+          {loading ? "loading..." : "Register"}
+        </Button>
       </form>
     </AuthLayout>
   );

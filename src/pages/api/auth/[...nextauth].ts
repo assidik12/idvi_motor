@@ -54,7 +54,7 @@ const authOptions: NextAuthOptions = {
 
       if (account?.provider === "google") {
         const data: any = {
-          fullName: user.name,
+          fullname: user.name,
           email: user.email,
           role: user.role,
           image: user.image,
@@ -73,7 +73,6 @@ const authOptions: NextAuthOptions = {
           }
         });
       }
-
       return token;
     },
     async session({ session, token }: any) {
@@ -98,7 +97,6 @@ const authOptions: NextAuthOptions = {
       });
 
       session.accessToken = accessToken;
-
       return session;
     },
   },
