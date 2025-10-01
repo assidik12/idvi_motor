@@ -6,12 +6,11 @@ import type { NextApiRequest, NextApiResponse } from "next";
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "GET") {
     const token = req.headers.authorization?.split(" ")[1];
+
     if (token) {
       jwt.verify(token, process.env.NEXTAUTH_SECREET || "", async (err: any, decoded: any) => {
         if (decoded) {
           const user: any = await retrieveDataById("users", decoded.id);
-          user.id = decoded.id;
-
           return res.status(200).json({ status: true, message: "Success", data: user });
         } else {
           return res.status(401).json({ status: false, message: "Unauthorized" });

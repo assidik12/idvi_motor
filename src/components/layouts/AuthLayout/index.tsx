@@ -13,12 +13,27 @@ type AuthLayoutProps = {
 const AuthLayout = (props: AuthLayoutProps) => {
   const { title, children, link, linkTitle, description } = props;
   return (
-    <div className="flex flex-col items-center justify-center h-screen w-screen">
-      <h1 className="mb-4 text-3xl font-bold">{title}</h1>
-      <div className="w-2/5 p-5 shadow-lg rounded-xl mb-5 flex flex-col items-center gap-2">{children}</div>
-      <p className="mb-2 text-sm">
+    <div className="flex flex-col items-center justify-center min-h-screen px-4 bg-gray-50">
+      {/* Title */}
+      <h1 className="mb-6 text-3xl font-bold text-gray-800">{title}</h1>
+
+      {/* Card / Box */}
+      <div
+        className="
+          w-full max-w-md 
+          p-6 sm:p-8 
+          shadow-lg rounded-xl 
+          bg-white 
+          flex flex-col items-center gap-4
+        "
+      >
+        {children}
+      </div>
+
+      {/* Link to register/login */}
+      <p className="mt-4 text-lg text-gray-600">
         {description}{" "}
-        <Link href={link} className="text-blue-500 hover:underline">
+        <Link href={link} className="text-blue-500 font-medium hover:underline">
           {linkTitle}
         </Link>
       </p>

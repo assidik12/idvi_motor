@@ -21,11 +21,11 @@ const NavbarView = () => {
           <Link href="/product/gallery" className="text-gray-300 hover:text-white transition duration-300">
             Galeri
           </Link>
-          <Link href="/product/sell" className="text-gray-300 hover:text-white transition duration-300">
-            Jual
+          <Link href="/#review" className="text-gray-300 hover:text-white transition duration-300">
+            Review
           </Link>
           <Link href={`/#dealer`} className="text-gray-300 hover:text-white transition duration-300">
-            Adrress
+            Alamat
           </Link>
           {session.data?.accessToken ? (
             <Link href="/member/profile" className="text-gray-300 hover:text-white transition duration-300">

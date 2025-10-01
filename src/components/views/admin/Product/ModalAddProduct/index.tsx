@@ -25,36 +25,27 @@ const ModalAddProduct = (props: any) => {
       </button>
     </div>
   );
-  // ========== Logic untuk Spesifikasi Dinamis ==========
+
+  // ===== Dynamic Specs Logic =====
   const handleSpecChange = (index: number, field: "key" | "value", value: string) => {
     const newSpecs = [...specs];
     newSpecs[index][field] = value;
     setSpecs(newSpecs);
   };
 
-  const addSpecField = () => {
-    setSpecs([...specs, { key: "", value: "" }]);
-  };
-
-  const removeSpecField = (index: number) => {
-    const newSpecs = specs.filter((_, i) => i !== index);
-    setSpecs(newSpecs);
-  };
-  // =====================================================
+  const addSpecField = () => setSpecs([...specs, { key: "", value: "" }]);
+  const removeSpecField = (index: number) => setSpecs(specs.filter((_, i) => i !== index));
+  // ===============================
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      // Validasi ukuran gambar
       if (file.size > 10 * 1024 * 1024) {
-        // 10 MB
         setToaster({ message: "Image size must be less than 10MB", varian: "Warning" });
         return;
       }
       const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result as string);
-      };
+      reader.onloadend = () => setImagePreview(reader.result as string);
       reader.readAsDataURL(file);
     }
   };
@@ -79,9 +70,7 @@ const ModalAddProduct = (props: any) => {
         price: parseInt(form.price.value),
         make: form.make.value,
         specs: specs.reduce((acc, spec) => {
-          if (spec.key && spec.value) {
-            acc[spec.key] = spec.value;
-          }
+          if (spec.key && spec.value) acc[spec.key] = spec.value;
           return acc;
         }, {} as Record<string, string>),
         year: parseInt(form.year.value),
@@ -91,6 +80,7 @@ const ModalAddProduct = (props: any) => {
         updated_at: new Date(),
         created_at: new Date(),
       };
+
       const res: any = await ProductServices.addProduct(productPayload, session.data?.accessToken);
       if (res.data.status && res.data.id) {
         await uploadFile(res.data.id, "products", file, async (newImageUrl: string) => {
@@ -104,12 +94,12 @@ const ModalAddProduct = (props: any) => {
             setToaster({ message: "Product added successfully", varian: "Succes" });
           } else {
             setToaster({ message: "Failed to update product image.", varian: "Warning" });
-            setIsLoading(false);
-            setModalAddProduct(false);
           }
+          setIsLoading(false);
         });
       } else {
         setToaster({ message: "Failed to add product data.", varian: "Warning" });
+        setIsLoading(false);
       }
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : "An unknown error occurred.";
@@ -121,22 +111,23 @@ const ModalAddProduct = (props: any) => {
 
   return (
     <Modal onClose={() => setModalAddProduct(false)}>
-      {/* */}
-      <div className="object-cover bg-white rounded-xl shadow-2xl transform transition-all duration-300 ease-in-out scale-100 opacity-100">
-        <div className="px-6 pt-6 pb-4 border-b border-gray-200">
-          <div className="flex items-start">
-            <div className="flex-grow">
-              <h3 id="modal-title" className="text-2xl font-semibold text-gray-900">
-                Add Product
-              </h3>
-            </div>
-          </div>
+      <div
+        className="bg-white rounded-xl shadow-2xl transform transition-all duration-300 ease-in-out 
+                      w-full max-w-4xl max-h-[90vh] flex flex-col"
+      >
+        {/* Header */}
+        <div className="px-6 pt-6 pb-4 border-b border-gray-200 shrink-0">
+          <h3 id="modal-title" className="text-2xl font-semibold text-gray-900">
+            Add Product
+          </h3>
         </div>
-        <form onSubmit={handleAddProduct} className="p-6 space-y-4">
-          {/* product detail */}
-          <div className="flex space-x-3">
-            <Input label="Product Name" name="name" type="text" placeholder="e.g., Organic Body Butter" />
-            <Input label="Model" name="model" type="text" placeholder="e.g., Skin Care" />
+
+        {/* Scrollable Content */}
+        <form onSubmit={handleAddProduct} className="flex-1 overflow-y-auto px-6 py-4 space-y-4 scrollbar-thin scrollbar-thumb-gray-300 hover:scrollbar-thumb-gray-400">
+          {/* Product Detail */}
+          <div className="flex flex-col gap-3 sm:flex-row sm:space-x-3">
+            <Input label="Product Name" name="name" type="text" placeholder="e.g., Honda HRV" />
+            <Input label="Model" name="model" type="text" placeholder="e.g., crossover" />
             <Select
               label="Condition"
               name="condition"
@@ -148,43 +139,42 @@ const ModalAddProduct = (props: any) => {
             />
           </div>
 
-          {/* quanty */}
-          <div className="flex">
-            <Input label="Price" name="price" type="number" placeholder="e.g., 150000" />
-            <Input label="Make" name="make" type="text" placeholder="e.g., Body Butter" />
-            <Input label="Type" name="type" type="text" placeholder="e.g., Body Butter" />
+          {/* Quantity */}
+          <div className="flex flex-col gap-3 sm:flex-row sm:space-x-3">
+            <Input label="Price" name="price" type="number" placeholder="e.g., 250000000" />
+            <Input label="Make" name="make" type="text" placeholder="e.g., Honda" />
+            <Input label="Type" name="type" type="text" placeholder="e.g., SUV" />
           </div>
 
-          {/* */}
-          <div className="flex flex-col">
-            <div className="flex items-center">
-              <Input label="Year" name="year" type="date" placeholder="e.g., 2023" />
-              <Select
-                label="Status"
-                name="status"
-                options={[
-                  { value: "Active", label: "Active" },
-                  { value: "Draft", label: "Draft" },
-                ]}
-                defaultValue="Active"
-              />
-            </div>
-            <div>
-              <div className="sm:col-span-2">
-                <label htmlFor="description" className="block text-sm font-medium text-gray-600 mb-1.5">
-                  Description
-                </label>
-                <textarea
-                  id="description"
-                  name="description"
-                  rows={4}
-                  className="block w-full px-4 py-2.5 text-sm text-gray-800 bg-white border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
-                  placeholder="Describe the product details..."
-                ></textarea>
-              </div>
-            </div>
+          {/* Year & Status */}
+          <div className="flex flex-col gap-3 sm:flex-row sm:space-x-3">
+            <Input label="Year" name="year" type="number" placeholder="e.g., 2025" />
+            <Select
+              label="Status"
+              name="status"
+              options={[
+                { value: "Active", label: "Active" },
+                { value: "Draft", label: "Draft" },
+              ]}
+              defaultValue="Active"
+            />
           </div>
 
+          {/* Description */}
+          <div>
+            <label htmlFor="description" className="block text-sm font-medium text-gray-600 mb-1.5">
+              Description
+            </label>
+            <textarea
+              id="description"
+              name="description"
+              rows={4}
+              className="block w-full px-4 py-2.5 text-sm text-gray-800 bg-white border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+              placeholder="Describe the product details..."
+            ></textarea>
+          </div>
+
+          {/* Specifications */}
           <div className="mt-4">
             <label className="block text-sm font-medium text-gray-700 mb-1.5">Specifications</label>
             <div className="p-4 border border-gray-200 rounded-lg bg-gray-50">
@@ -198,51 +188,38 @@ const ModalAddProduct = (props: any) => {
             </div>
           </div>
 
-          {/* change image */}
-          <div className="md:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-2">
-            <div className="md:col-span-1 space-y-0">
-              <label className="block text-sm font-medium text-gray-600 mb-1.5">Product Image</label>
-              <div
-                className="relative w-full max-w-md aspect-square border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center text-center cursor-pointer hover:border-purple-500 hover:bg-purple-50 transition-colors"
-                onClick={() => fileInputRef.current?.click()}
-              >
-                {imagePreview ? (
-                  <Image src={imagePreview} alt="Preview" layout="fill" className="object-cover rounded-lg" />
-                ) : (
-                  <div className="text-gray-500">
-                    <UploadCloud size={30} className="mx-auto mb-2" />
-                    <p className="font-semibold">Click to upload</p>
-                    <p className="text-xs mt-1">PNG, JPG, WEBP (Max 10MB)</p>
-                  </div>
-                )}
-              </div>
-              <input ref={fileInputRef} name="image" type="file" className="hidden" accept="image/png, image/jpeg, image/webp" onChange={handleImageChange} />
+          {/* Image Upload */}
+          <div>
+            <label className="block text-sm font-medium text-gray-600 mb-1.5">Product Image</label>
+            <div
+              className="relative w-full max-w-md aspect-square border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center text-center cursor-pointer hover:border-purple-500 hover:bg-purple-50 transition-colors"
+              onClick={() => fileInputRef.current?.click()}
+            >
+              {imagePreview ? (
+                <Image src={imagePreview} alt="Preview" layout="fill" className="object-cover rounded-lg" />
+              ) : (
+                <div className="text-gray-500">
+                  <UploadCloud size={30} className="mx-auto mb-2" />
+                  <p className="font-semibold">Click to upload</p>
+                  <p className="text-xs mt-1">PNG, JPG, WEBP (Max 10MB)</p>
+                </div>
+              )}
             </div>
-          </div>
-
-          {/* button */}
-          <div className="px-6 py-3 bg-gray-50 border-t border-gray-200 flex justify-end items-center">
-            <div className="flex space-x-3">
-              <Button
-                type="button"
-                onClick={() => setModalAddProduct(false)}
-                disabled={isLoading}
-                varian="secondary"
-                className="px-4 py-2.5 text-sm font-semibold text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-1"
-              >
-                Cancel
-              </Button>
-              <Button
-                type="submit"
-                disabled={isLoading}
-                varian="primary"
-                className="px-4 py-2.5 text-sm font-semibold text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-1"
-              >
-                {isLoading ? "Adding..." : "Add Product"}
-              </Button>
-            </div>
+            <input ref={fileInputRef} name="image" type="file" className="hidden" accept="image/png, image/jpeg, image/webp" onChange={handleImageChange} />
           </div>
         </form>
+
+        {/* Footer */}
+        <div className="px-6 py-3 bg-gray-50 border-t border-gray-200 flex justify-end items-center shrink-0">
+          <div className="flex space-x-3">
+            <Button type="button" onClick={() => setModalAddProduct(false)} disabled={isLoading} varian="secondary">
+              Cancel
+            </Button>
+            <Button type="submit" disabled={isLoading} varian="primary">
+              {isLoading ? "Adding..." : "Add Product"}
+            </Button>
+          </div>
+        </div>
       </div>
     </Modal>
   );

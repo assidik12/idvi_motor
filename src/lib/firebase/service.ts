@@ -21,14 +21,12 @@ export async function retrieveData(collectionName: string) {
     id: doc.id,
     ...doc.data(),
   }));
-
   return data;
 }
 
 export async function retrieveDataById(collectionName: string, id: string) {
   const snapshot = await getDoc(doc(firestore, collectionName, id));
   const data = snapshot.data();
-
   return data;
 }
 export async function addData(collectionName: string, data: any, callback: Function) {
