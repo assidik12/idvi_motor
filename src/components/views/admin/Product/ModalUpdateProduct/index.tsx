@@ -67,7 +67,7 @@ const ModalUpdateProduct = (props: any) => {
         const { data } = await ProductServices.getAllProducts();
         setProductData(data.data);
         setIsLoading(false);
-        setToaster({ message: "Product updated successfully.", varian: "Succes" });
+        setToaster({ message: "Product updated successfully.", varian: "Success" });
         setModalUpdateProduct({});
       } else {
         throw new Error(res.data.message);

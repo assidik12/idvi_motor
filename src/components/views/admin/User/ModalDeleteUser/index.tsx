@@ -22,7 +22,7 @@ const ModalDeleteUser = (props: propsType) => {
       const { data } = await UserServices.getAllUsers();
 
       setModalDeleteuser({});
-      setToaster({ message: "Delete user success", varian: "Succes" });
+      setToaster({ message: "Delete user success", varian: "Success" });
       setUserData(data.data);
       setLoading(false);
     } else {

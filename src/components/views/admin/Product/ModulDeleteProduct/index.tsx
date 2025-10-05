@@ -14,7 +14,7 @@ const ModalDeleteProduct = (props: any) => {
       if (res.status) {
         const { data } = await ProductServices.getAllProducts();
         setProductData(data.data);
-        setToaster({ message: "Delete product success", varian: "Succes" });
+        setToaster({ message: "Delete product success", varian: "Success" });
         setIsLoading(false);
         setModalDeleteProduct({});
       }

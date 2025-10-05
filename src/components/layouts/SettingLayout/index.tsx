@@ -44,17 +44,14 @@ type propsType = {
   children: React.ReactNode;
 };
 
-const AdminLayout = (props: propsType) => {
+const SettingLayout = (props: propsType) => {
   const { children } = props;
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
     <div className="relative min-h-screen md:flex">
       {/* Tombol Hamburger untuk Mobile */}
-      <div className="bg-black text-gray-100 flex justify-between md:hidden">
-        <a href="#" className="block p-4 text-white font-bold">
-          Logo
-        </a>
+      <div className="bg-black text-gray-100 flex justify-end md:hidden">
         <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="p-4 focus:outline-none focus:bg-gray-700">
           <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7"></path>
@@ -65,7 +62,7 @@ const AdminLayout = (props: propsType) => {
       {/* Sidebar */}
       <div className={`z-20 absolute bg-black text-white w-64 min-h-screen overflow-y-auto transition-transform transform md:relative md:translate-x-0 ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"}`}>
         <div className="p-5 text-center">
-          <h1 className="text-2xl font-bold">Admin Dashboard</h1>
+          <h1 className="text-2xl font-bold">Setting Website</h1>
         </div>
         <SidebarView lists={listSideBarItem} />
       </div>
@@ -76,4 +73,4 @@ const AdminLayout = (props: propsType) => {
   );
 };
 
-export default AdminLayout;
+export default SettingLayout;

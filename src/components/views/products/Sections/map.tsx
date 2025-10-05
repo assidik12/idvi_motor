@@ -2,13 +2,17 @@ export default function Maps() {
   return (
     <div className="container mx-auto px-6">
       <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">Dealer Resmi Dekat Anda</h2>
-      <div className="map-placeholder h-80 max-md:h-[500px] w-full mb-48 max-md:mb-8">
+      <div className="h-80 max-md:h-[500px] w-full mb-48 max-md:mb-8">
         <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.3890961145694!2d109.0549386!3d-6.963343!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e6fbc6532073a75%3A0x3c135d445f3545ff!2sBrother%20Cell!5e0!3m2!1sid!2sid!4v1690030509685!5m2!1sid!2sid"
+          title="Dealer Location Map"
+          name="Dealer Location Map"
+          src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d1088.0806645864884!2d109.054564!3d-6.9611807!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e6fbc7ae64cf0bf%3A0x742e1ca3638ed0b5!2sIdvi%20Motor!5e1!3m2!1sid!2sid!4v1759673698061!5m2!1sid!2sid"
           width="100%"
           height="500"
           style={{ border: 0, borderRadius: "10px", overflow: "hidden" }}
           loading="lazy"
+          allowFullScreen={true}
+          referrerPolicy="no-referrer-when-downgrade"
         ></iframe>
       </div>
 

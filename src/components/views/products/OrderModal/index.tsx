@@ -10,8 +10,29 @@ const PreOrderModal: React.FC<{ isOpen: boolean; onClose: () => void; car: TypeC
   useEffect(() => {
     if (isOpen) {
       setIsSubmitted(false);
+      // Prevent body scroll when modal is open
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
     }
-  }, [isOpen]);
+
+    // Handle Escape key press
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && isOpen) {
+        onClose();
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener("keydown", handleEscape);
+    }
+
+    // Cleanup function to restore scroll and remove event listener
+    return () => {
+      document.body.style.overflow = "unset";
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, [isOpen, onClose]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,51 +51,117 @@ const PreOrderModal: React.FC<{ isOpen: boolean; onClose: () => void; car: TypeC
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-75 flex justify-center items-center z-50 transition-opacity duration-300" onClick={onClose}>
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl p-8 m-4 max-w-lg w-full transform transition-all duration-300 scale-95 hover:scale-100" onClick={(e) => e.stopPropagation()}>
-        <button onClick={onClose} className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200">
+    <div
+      className="fixed inset-0 bg-white/20 backdrop-blur-sm flex justify-center items-center z-50 transition-all duration-300 ease-out"
+      onClick={onClose}
+      style={{ backdropFilter: "blur(8px)" }}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modal-title"
+      aria-describedby="modal-description"
+    >
+      <div
+        className="bg-white/95 backdrop-blur-md border border-white/20 shadow-2xl rounded-2xl p-8 m-4 max-w-lg w-full transform transition-all duration-300 scale-95 hover:scale-100 relative"
+        onClick={(e) => e.stopPropagation()}
+        style={{
+          boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(255, 255, 255, 0.2)",
+          backdropFilter: "blur(16px)",
+        }}
+      >
+        <button onClick={onClose} className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 transition-colors duration-200 rounded-full p-1 hover:bg-gray-100/50" aria-label="Close modal">
           <X className="h-6 w-6" />
         </button>
         {!isSubmitted ? (
           <>
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Formulir Pre-Order</h2>
-            <p className="text-gray-600 dark:text-gray-300 mt-1">
-              Anda akan melakukan pre-order untuk{" "}
-              <span className="font-semibold">
-                {car.make} {car.model}
-              </span>
-              .
-            </p>
-            <form onSubmit={handleSubmit} className="mt-6 space-y-4">
-              <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-200">
+            <div className="text-center mb-6">
+              <h2 id="modal-title" className="text-2xl font-bold text-gray-800 mb-2">
+                Formulir Pre-Order
+              </h2>
+              <div className="w-16 h-1 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full mx-auto mb-4"></div>
+              <p id="modal-description" className="text-gray-600 leading-relaxed">
+                Anda akan melakukan pre-order untuk{" "}
+                <span className="font-semibold text-blue-600 bg-blue-50 px-2 py-1 rounded-md">
+                  {car.make} {car.model}
+                </span>
+              </p>
+            </div>
+
+            <form onSubmit={handleSubmit} className="space-y-5">
+              <div className="group">
+                <label htmlFor="name" className="block text-sm font-semibold text-gray-700 mb-2">
                   Nama Lengkap
                 </label>
-                <input type="text" id="name" required className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600" />
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  required
+                  className="w-full px-4 py-3 bg-white/70 border border-gray-200 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all duration-200 placeholder-gray-400"
+                  placeholder="Masukkan nama lengkap Anda"
+                />
               </div>
-              <div>
-                <label htmlFor="address" className="block text-sm font-medium text-gray-700 dark:text-gray-200">
+
+              <div className="group">
+                <label htmlFor="address" className="block text-sm font-semibold text-gray-700 mb-2">
                   Alamat Rumah
                 </label>
-                <input type="text" id="address" required className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600" />
+                <input
+                  type="text"
+                  id="address"
+                  name="address"
+                  required
+                  className="w-full px-4 py-3 bg-white/70 border border-gray-200 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all duration-200 placeholder-gray-400"
+                  placeholder="Masukkan alamat lengkap Anda"
+                />
               </div>
-              <div>
-                <label htmlFor="phone" className="block text-sm font-medium text-gray-700 dark:text-gray-200">
+
+              <div className="group">
+                <label htmlFor="phone" className="block text-sm font-semibold text-gray-700 mb-2">
                   Nomor Telepon
                 </label>
-                <input type="tel" id="phone" required className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600" />
+                <input
+                  type="tel"
+                  id="phone"
+                  name="phone"
+                  required
+                  className="w-full px-4 py-3 bg-white/70 border border-gray-200 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all duration-200 placeholder-gray-400"
+                  placeholder="Contoh: 08123456789"
+                />
               </div>
-              <button type="submit" className="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg shadow-lg hover:bg-blue-700 transition-transform transform hover:scale-105">
+
+              <button
+                type="submit"
+                className="w-full bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold py-4 px-6 rounded-xl shadow-lg hover:shadow-xl hover:from-blue-600 hover:to-blue-700 transition-all duration-300 transform hover:scale-105 active:scale-95 flex items-center justify-center gap-2"
+              >
+                <ShoppingCart className="h-5 w-5" />
                 Kirim Pre-Order
               </button>
             </form>
           </>
         ) : (
           <div className="text-center py-8">
-            <CheckCircle className="h-20 w-20 text-green-500 mx-auto animate-pulse" />
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mt-4">Terima Kasih!</h2>
-            <p className="text-gray-600 dark:text-gray-300 mt-2">Permintaan pre-order Anda telah kami terima. Tim kami akan segera menghubungi Anda.</p>
-            <button onClick={onClose} className="mt-6 w-full bg-gray-200 text-gray-800 font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-gray-300 dark:bg-gray-600 dark:text-white dark:hover:bg-gray-500">
+            <div className="relative mb-6">
+              <div className="w-24 h-24 bg-gradient-to-r from-green-400 to-green-500 rounded-full mx-auto flex items-center justify-center shadow-lg">
+                <CheckCircle className="h-12 w-12 text-white animate-bounce" />
+              </div>
+              <div className="absolute inset-0 w-24 h-24 bg-green-400/30 rounded-full mx-auto animate-ping"></div>
+            </div>
+
+            <h2 className="text-2xl font-bold text-gray-800 mb-3">Terima Kasih!</h2>
+            <div className="w-16 h-1 bg-gradient-to-r from-green-400 to-green-500 rounded-full mx-auto mb-4"></div>
+
+            <p className="text-gray-600 leading-relaxed mb-6 px-4">
+              Permintaan pre-order Anda untuk{" "}
+              <span className="font-semibold text-green-600 bg-green-50 px-2 py-1 rounded-md">
+                {car.make} {car.model}
+              </span>{" "}
+              telah kami terima. Tim kami akan segera menghubungi Anda.
+            </p>
+
+            <button
+              onClick={onClose}
+              className="w-full bg-gradient-to-r from-gray-100 to-gray-200 text-gray-700 font-semibold py-3 px-6 rounded-xl shadow-md hover:shadow-lg hover:from-gray-200 hover:to-gray-300 transition-all duration-300 transform hover:scale-105"
+            >
               Tutup
             </button>
           </div>

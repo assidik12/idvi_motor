@@ -12,6 +12,7 @@ export interface TypeCar {
   specs: { [key: string]: string }; // Spesifikasi detail
   status?: "Active" | "Inactive";
   created_at?: Date;
+  mileage?: number; // Added mileage property
   updated_at?: Date;
 }
 
@@ -96,3 +97,14 @@ export const carsData: TypeCar[] = [
     specs: { Baterai: "72.6 kWh", Jangkauan: "481 km", Fitur: "Vehicle-to-Load (V2L)", Warna: "Cyber Gray" },
   },
 ];
+
+export interface ProductViewProps {
+  reviews: any[];
+  products: TypeCar[];
+  session?: any;
+  signIn?: () => void;
+  signOut?: () => void;
+  setToaster?: (message: string) => void;
+  isLoading?: boolean;
+  settings?: any[];
+}

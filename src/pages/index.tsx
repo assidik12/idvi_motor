@@ -8,6 +8,7 @@ import ReviewServices from "@/services/review";
 export default function Home({ setToaster }: any) {
   const [products, setProducts] = useState([]);
   const [reviews, setReviews] = useState([]);
+  const [settings, setSettings] = useState<any>({});
   const [isLoading, setIsLoading] = useState(true);
   const session: any = useSession();
 
@@ -18,6 +19,18 @@ export default function Home({ setToaster }: any) {
         setProducts(data.data);
       } catch (error) {
         setProducts([]);
+      }
+    };
+
+    const getSettings = async () => {
+      try {
+        const response = await fetch("/api/settings");
+        const result = await response.json();
+        if (result.status) {
+          setSettings(result.data);
+        }
+      } catch (error) {
+        setSettings({});
       }
     };
 
@@ -32,7 +45,7 @@ export default function Home({ setToaster }: any) {
 
     const fetchAllData = async () => {
       setIsLoading(true);
-      await Promise.all([getData(), getReviews()]);
+      await Promise.all([getData(), getReviews(), getSettings()]);
       setIsLoading(false);
     };
 
@@ -42,40 +55,38 @@ export default function Home({ setToaster }: any) {
   return (
     <>
       <Head>
-        <title>Garasi-Kita - Jual Beli Kendaraan Terpercaya di Jatibarang, Brebes</title>
+        <title>Garasi Kita - Jual Beli Kendaraan Terpercaya di Jatibarang, Brebes</title>
         <meta charSet="UTF-8" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/logo.jpg" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        {/* --- META TAGS UTAMA UNTUK SEO --- */}
         <meta
           name="description"
           content="Garasi-Kita adalah dealer mobil dan motor bekas berkualitas di Jatibarang, Brebes. Temukan berbagai merk kendaraan dengan harga kompetitif dan pelayanan terbaik. Hubungi kami untuk penawaran terbaik!"
         />
         <meta name="keywords" content="jual beli mobil, jual beli motor, dealer mobil brebes, dealer motor jatibarang, kendaraan bekas, mobil bekas brebes, motor bekas jatibarang, garasi kita" />
         <meta name="author" content="Garasi-Kita" />
-        <link rel="canonical" href="https://www.garasi-kita.com" />
-        {/* --- META TAGS UNTUK LOKASI (GEO-TAGGING) --- */}
+        {/* URL kanonikal diperbarui ke domain Vercel Anda */}
+        <link rel="canonical" href="https://garasi-kita-assidik.vercel.app/" />
+
+        {/* --- META TAGS UNTUK LOKASI (GEO-TAGGING) - Paling optimal menggunakan koordinat --- */}
         <meta name="geo.placename" content="Jatibarang, Brebes, Indonesia" />
         <meta name="geo.region" content="ID-JT" />
+        {/* Koordinat ini sudah akurat untuk menargetkan lokasi Jatibarang */}
         <meta name="geo.position" content="-6.9634;109.0543" />
         <meta name="ICBM" content="-6.9634, 109.0543" />
-        {/* --- META TAGS UNTUK MEDIA SOSIAL (OPEN GRAPH & TWITTER) --- */}
+
+        {/* --- META TAGS UNTUK MEDIA SOSIAL (OPEN GRAPH) --- */}
         <meta property="og:title" content="Garasi-Kita - Jual Beli Kendaraan di Jatibarang, Brebes" />
         <meta property="og:description" content="Dealer mobil dan motor bekas berkualitas di Jatibarang, Brebes. Harga kompetitif dan pelayanan terbaik." />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://www.garasi-kita.com" />
-        <meta property="og:image" content="https://www.garasi-kita.com/og-image.jpg" />
+        {/* URL Open Graph diperbarui */}
+        <meta property="og:url" content="https://garasi-kita-assidik.vercel.app/" />
+        {/* Pastikan gambar ini tersedia di URL berikut */}
+        <meta property="og:image" content="https://garasi-kita-assidik.vercel.app/logo.jpg" />
         <meta property="og:site_name" content="Garasi-Kita" />
         <meta property="og:locale" content="id_ID" />
-        <meta property="fb:app_id" content="YOUR_FB_APP_ID" />
-        {/* Twitter Card */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:site" content="@username_twitter_anda" />
-        <meta name="twitter:creator" content="@username_twitter_anda" />
-        <meta name="twitter:title" content="Garasi-Kita - Jual Beli Kendaraan di Jatibarang, Brebes" />
-        <meta name="twitter:description" content="Dealer mobil dan motor bekas berkualitas di Jatibarang, Brebes. Harga terbaik dan terpercaya." />
-        <meta name="twitter:image" content="https://www.garasi-kita.com/twitter-image.jpg" />
-        {/* --- SCHEMA MARKUP UNTUK LOCAL BUSINESS --- */}
+
+        {/* --- SCHEMA MARKUP UNTUK LOCAL BUSINESS (JSON-LD) --- */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -83,14 +94,16 @@ export default function Home({ setToaster }: any) {
               "@context": "https://schema.org",
               "@type": "AutoDealer",
               name: "Garasi-Kita",
-              image: "https://www.garasi-kita.com/logo.png",
-              "@id": "https://www.garasi-kita.com",
-              url: "https://www.garasi-kita.com",
-              telephone: "+62-XXX-XXXX-XXXX",
-              priceRange: "$$",
+              // Pastikan logo ini tersedia di URL berikut
+              image: "https://garasi-kita-assidik.vercel.app/logo.jpg",
+              // URL @id dan url utama diperbarui
+              "@id": "https://garasi-kita-assidik.vercel.app/",
+              url: "https://garasi-kita-assidik.vercel.app/",
+              // CATATAN: Jangan lupa ganti nomor telepon ini dengan yang asli
+              telephone: "+62 851-5486-7042",
               address: {
                 "@type": "PostalAddress",
-                streetAddress: "Jl. Raya Jatibarang No. 123",
+                streetAddress: "Jl. Sindukerten No.35",
                 addressLocality: "Jatibarang",
                 addressRegion: "Jawa Tengah",
                 postalCode: "52261",
@@ -101,20 +114,22 @@ export default function Home({ setToaster }: any) {
                 latitude: -6.9634,
                 longitude: 109.0543,
               },
+
               openingHoursSpecification: {
                 "@type": "OpeningHoursSpecification",
                 dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
                 opens: "08:00",
                 closes: "17:00",
               },
-              sameAs: ["https://www.facebook.com/username_anda", "https://www.tiktok.com/@username_anda", "https://www.instagram.com/username_anda"],
+              // Tautan media sosial diperbarui hanya dengan Instagram
+              sameAs: ["https://www.instagram.com/jualbeli_motormobil_brebes/"],
             }),
           }}
         />
       </Head>
 
       <main>
-        <ProductView reviews={reviews} products={products} session={session} signIn={signIn} signOut={signOut} setToaster={setToaster} isLoading={isLoading} />
+        <ProductView reviews={reviews} products={products} session={session} signIn={signIn} signOut={signOut} setToaster={setToaster} isLoading={isLoading} settings={settings} />
       </main>
     </>
   );

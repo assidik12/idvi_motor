@@ -27,13 +27,12 @@ const ModalUpdateUser = (props: propsType) => {
       role: form.role.value,
     };
 
-    const { status } = await UserServices.updateUser(userData[0].id, query, session?.accessToken);
+    const { status } = await UserServices.updateUser(modalUpdateUser.id, query, session?.accessToken);
     if (status) {
       setModalUpdateuser({});
       setLoading(false);
       const { data } = await UserServices.getAllUsers();
       setToaster({ message: "Updated user success", varian: "Success" });
-
       setUserData(data.data);
     } else {
       setToaster({ message: "Updated user failed", varian: "Error" });

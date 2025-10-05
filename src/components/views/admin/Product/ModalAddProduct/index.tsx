@@ -91,7 +91,7 @@ const ModalAddProduct = (props: any) => {
             const { data } = await ProductServices.getAllProducts();
             setProductData(data.data);
             setModalAddProduct(false);
-            setToaster({ message: "Product added successfully", varian: "Succes" });
+            setToaster({ message: "Product added successfully", varian: "Success" });
           } else {
             setToaster({ message: "Failed to update product image.", varian: "Warning" });
           }
@@ -111,10 +111,7 @@ const ModalAddProduct = (props: any) => {
 
   return (
     <Modal onClose={() => setModalAddProduct(false)}>
-      <div
-        className="bg-white rounded-xl shadow-2xl transform transition-all duration-300 ease-in-out 
-                      w-full max-w-4xl max-h-[90vh] flex flex-col"
-      >
+      <div className="bg-white rounded-xl shadow-2xl transform transition-all duration-300 ease-in-out w-full max-w-4xl max-h-[90vh] flex flex-col">
         {/* Header */}
         <div className="px-6 pt-6 pb-4 border-b border-gray-200 shrink-0">
           <h3 id="modal-title" className="text-2xl font-semibold text-gray-900">
@@ -132,10 +129,10 @@ const ModalAddProduct = (props: any) => {
               label="Condition"
               name="condition"
               options={[
-                { value: "New", label: "New" },
-                { value: "Used", label: "Used" },
+                { value: "Baru", label: "Baru" },
+                { value: "Bekas", label: "Bekas" },
               ]}
-              defaultValue="New"
+              defaultValue="Baru"
             />
           </div>
 
@@ -207,19 +204,18 @@ const ModalAddProduct = (props: any) => {
             </div>
             <input ref={fileInputRef} name="image" type="file" className="hidden" accept="image/png, image/jpeg, image/webp" onChange={handleImageChange} />
           </div>
-        </form>
-
-        {/* Footer */}
-        <div className="px-6 py-3 bg-gray-50 border-t border-gray-200 flex justify-end items-center shrink-0">
-          <div className="flex space-x-3">
-            <Button type="button" onClick={() => setModalAddProduct(false)} disabled={isLoading} varian="secondary">
-              Cancel
-            </Button>
-            <Button type="submit" disabled={isLoading} varian="primary">
-              {isLoading ? "Adding..." : "Add Product"}
-            </Button>
+          {/* Footer */}
+          <div className="px-6 py-3 bg-gray-50 border-t border-gray-200 flex justify-end items-center shrink-0">
+            <div className="flex space-x-3">
+              <Button type="button" onClick={() => setModalAddProduct(false)} disabled={isLoading} varian="secondary">
+                Cancel
+              </Button>
+              <Button type="submit" disabled={isLoading} varian="primary">
+                {isLoading ? "Adding..." : "Add Product"}
+              </Button>
+            </div>
           </div>
-        </div>
+        </form>
       </div>
     </Modal>
   );
