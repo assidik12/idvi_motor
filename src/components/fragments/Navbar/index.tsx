@@ -15,8 +15,8 @@ const NavbarView = () => {
   return (
     <header className="bg-brand-blue sticky top-0 z-50 shadow-lg">
       <nav className="container mx-auto px-6 py-4 flex justify-between items-center" role="navigation" aria-label="Main navigation">
-        <Link href="/" className="text-2xl font-bold text-white" aria-label="Garasi-Kita - Home">
-          Garasi Kita
+        <Link href="/" className="text-2xl font-bold text-white" aria-label="Idvi Motor - Home">
+          Idvi Motor
         </Link>
         <div className="hidden md:flex space-x-6 items-center" role="menubar">
           <Link href="/" className="text-gray-300 hover:text-white transition duration-300" role="menuitem">
