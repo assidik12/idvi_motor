@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/next-script-for-ga */
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import { useSession, signIn, signOut } from "next-auth/react";
@@ -75,6 +76,7 @@ export default function Home({ setToaster }: any) {
         <meta name="keywords" content="jual beli mobil, jual beli motor, dealer mobil brebes, dealer motor jatibarang, kendaraan bekas, mobil bekas brebes, motor bekas jatibarang, Idvi Motor" />
         <meta name="author" content="Idvi Motor" />
         <link rel="canonical" href="https://garasi-kita-assidik.vercel.app/" />
+        <meta name="google-site-verification" content="MvB63igIQjEO8xCinb6FrMC5k6J41WAfVSaa_HsvEm4" />
 
         {/* META TAGS UNTUK LOKASI (GEO-TAGGING) */}
         <meta name="geo.placename" content="Jatibarang, Brebes, Indonesia" />
@@ -129,6 +131,28 @@ export default function Home({ setToaster }: any) {
             }),
           }}
         />
+
+        {/* Google Tag Manager */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function(w,d,s,l,i){
+                w[l]=w[l]||[];
+                w[l].push({
+                  'gtm.start': new Date().getTime(),
+                  event: 'gtm.js'
+                });
+                var f=d.getElementsByTagName(s)[0],
+                j=d.createElement(s),
+                dl=l!='dataLayer'?'&l='+l:'';
+                j.async=true;
+                j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
+                f.parentNode.insertBefore(j,f);
+              })(window,document,'script','dataLayer','GTM-TZ4JCPWB');
+            `,
+          }}
+        />
+        {/* <!-- End Google Tag Manager --> */}
       </Head>
 
       <main>
