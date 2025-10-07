@@ -75,7 +75,7 @@ export default function Home({ setToaster }: any) {
         />
         <meta name="keywords" content="jual beli mobil, jual beli motor, dealer mobil brebes, dealer motor jatibarang, kendaraan bekas, mobil bekas brebes, motor bekas jatibarang, Idvi Motor" />
         <meta name="author" content="Idvi Motor" />
-        <link rel="canonical" href="https://garasi-kita-assidik.vercel.app/" />
+        <link rel="canonical" href="https://idvi-motor.vercel.app/" />
         <meta name="google-site-verification" content="MvB63igIQjEO8xCinb6FrMC5k6J41WAfVSaa_HsvEm4" />
 
         {/* META TAGS UNTUK LOKASI (GEO-TAGGING) */}
@@ -88,10 +88,10 @@ export default function Home({ setToaster }: any) {
         <meta property="og:title" content="Idvi Motor - Jual Beli Kendaraan di Jatibarang, Brebes" />
         <meta property="og:description" content="Dealer mobil dan motor bekas berkualitas di Jatibarang, Brebes. Harga kompetitif dan pelayanan terbaik." />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://garasi-kita-assidik.vercel.app/" />
+        <meta property="og:url" content="https://idvi-motor.vercel.app/" />
 
         {/* Updated OG Image - check your public folder for the actual logo file */}
-        <meta property="og:image" content="https://garasi-kita-assidik.vercel.app/logo.png" />
+        <meta property="og:image" content="https://idvi-motor.vercel.app/logo.png" />
         <meta property="og:site_name" content="Idvi Motor" />
         <meta property="og:locale" content="id_ID" />
 
@@ -104,9 +104,9 @@ export default function Home({ setToaster }: any) {
               "@type": "AutoDealer",
               name: "Idvi Motor",
               // Updated image URL - check your public folder for the actual file
-              image: "https://garasi-kita-assidik.vercel.app/logo.png",
-              "@id": "https://garasi-kita-assidik.vercel.app/",
-              url: "https://garasi-kita-assidik.vercel.app/",
+              image: "https://idvi-motor.vercel.app/logo.png",
+              "@id": "https://idvi-motor.vercel.app/",
+              url: "https://idvi-motor.vercel.app/",
               telephone: "+62 851-5486-7042",
               address: {
                 "@type": "PostalAddress",
