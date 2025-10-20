@@ -132,6 +132,19 @@ export default function Home({ setToaster }: any) {
           }}
         />
 
+        {/* SCHEMA MARKUP UNTUK WEBSITE */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              name: "Idvi Motor",
+              url: "https://idvi-motor.vercel.app/",
+            }),
+          }}
+        />
+
         {/* Google Tag Manager */}
         <script
           dangerouslySetInnerHTML={{
